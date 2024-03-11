@@ -75,6 +75,19 @@ Resources:
       CodeUri: session/
       Handler: app.lambda_handler
       Runtime: python3.9
+      Policies:
+        - AWSSecretsManagerGetSecretValuePolicy:
+            SecretArn:
+              arn:aws:secretsmanager:us-east-1:600091550595:secret:yelp_key-M2asns
+        - DynamoDBWritePolicy:
+            TableName:
+              Grubfinder_Session
+        - DynamoDBWritePolicy:
+            TableName:
+              Grubfinder_User
+        - DynamoDBWritePolicy:
+            TableName:
+              Grubfinder_Restaurant
       Architectures:
       - x86_64
       Events:
