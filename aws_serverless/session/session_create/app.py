@@ -4,9 +4,9 @@ This Lambda is responsible for creating a session and writing it to RDS.
 import json
 import uuid
 from datetime import datetime
+import random
 import boto3
 import requests
-from util import generate_id
 
 def yelp_search(data):
     '''
@@ -95,8 +95,8 @@ def lambda_handler(event, context):
         }
 
 
-    session_id = generate_id()
-    user_id = generate_id()
+    session_id = random.randint(100000, 999999)
+    user_id = random.randint(100000, 999999)
     host_key = str(uuid.uuid4())
 
     restaurants = []
