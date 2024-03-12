@@ -2,6 +2,7 @@
 This Lambda is responsible for creating a session and writing it to RDS.
 '''
 import json
+import os
 import uuid
 from datetime import datetime
 import random
@@ -40,18 +41,7 @@ def get_yelp_key():
     '''
     Gets the api key from aws secret manager to use when requesting data from yelp's API.
     '''
-    secret_name = 'yelp_key'
-    region_name = 'us-east-1'
-
-    session = boto3.session.Session()
-    client = session.client(
-        service_name='secretsmanager',
-        region_name=region_name
-    )
-
-    get_secret_value_response = client.get_secret_value(SecretId=secret_name)
-
-    return json.loads(get_secret_value_response['SecretString'])['key']
+    return os.environ.get('YELP_KEY')
 
 
 def lambda_handler(event, context):
@@ -160,5 +150,6 @@ def lambda_handler(event, context):
         'body': json.dumps({
                 'user_id': user_id,
                 'host_key': host_key,
+                'session_id': session_id,
         }),
     }

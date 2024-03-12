@@ -75,6 +75,9 @@ Resources:
       CodeUri: session/session_create
       Handler: app.lambda_handler
       Runtime: python3.9
+      Environment:
+        Variables:
+          YELP_KEY: '{{resolve:secretsmanager:arn:aws:secretsmanager:us-east-1:600091550595:secret:yelp_key-M2asns:SecretString:key}}'
       Policies:
         - AWSSecretsManagerGetSecretValuePolicy:
             SecretArn:
