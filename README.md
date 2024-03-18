@@ -1,60 +1,40 @@
-# GrubFinder
-Curb food indecision. A capstone project for UMGC.
+# Grubfinder
+## Development team
+This project was created for UMGC CMSC 495 7386 by:
+- Alemayehu Berihun
+- Evan Bridges
+- Jonathan George
+- Nabil Amin
+- Tristan Zimmerman
 
-## Tech Stack
-- Python (v3.9)
-- Docker (For local development)
-- AWS Lambdas (Business logic)
-- AWS DynamoDB (Database)
-- Svelte (Frontend)
+## Who is Grubfinder for?
+People who organize food orders are burdened with having to accommodate a spectrum of tastebuds and palettes. 
+The sheer number of ordering possibilities often results in indecisiveness and prolonged deliberation. 
+Food should be a pleasurable experience, but it easily becomes an overwhelming challenge.
 
-## Getting Started (For Contributors)
+Use Grubfinder to reduce the indecision of choosing a place to eat.
 
-### Yelp API Key
-GrubFinder relies on Yelp's API for restaurant data. In order to avoid hitting the request limit the keys that exist in production, developers are required to create their own Yelp account and API key.
+## What does Grubfinder do?
 
-- Create a yelp account.
-- Go to the [create app](https://www.yelp.com/developers/v3/manage_app) page once logged in.
-- Name your app whatever (i.e grubfinder_dev).
-- Take note of your API Key.
-- Set the environment variable on your machine with the key "YELP_KEY".
+GrubFinder aims to reduce the cognitive load and decision fatigue associated with organizing group food orders. The primary objectives of the project are to:
 
-### Docker
-Another tool that GrubFinder uses which we will get to in this README shortly requires Docker. Ensure that you have the [latest version of Docker](https://www.docker.com/products/docker-desktop/) installed on your machine.
+1. Find highly rated, local restaurants that are currently open. 
+2. Facilitate private group voting for the best restaurant to order. 
+3. Guide the decision on a place to eat. 
 
-### AWS CLI
-To access AWS resources you need to have [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed and configred with the proper access keys.
+This app allows a group of friends, coworkers, or family members to privately vote on a restaurant of choice. 
+GrubFinder uses the Yelp API to find highly rated, local restaurants that are open for dine-in or take-out. 
+After votes have been cast, the restaurant with the most votes wins. 
 
-### AWS SAM CLI
- To be able to run the "backend" server locally and test your code you ned to install AWS SAM CLI. Use your favorie package manager or follow the instructions here to [install SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html) on your machine.
+When it’s time to order food, GrubFinder guides the group to a decision.
 
-### venv
-This isn't neccessary but it'll make your IDE happy if you want autocomplete and real-time linting.
+## How does Grubfinder work?
+When the **host** needs to order food for a group, Grubfinder.io helps them identify a restaurant from which to order by polling the individuals in their group.
+Grubfinder uses a combination of web scraping and the Yelp API to identify quality restaurants in the area.
+The voting session is configured by the host, allowing them to set the type of food to include and how expensive the restaurants are.
+The host can also select, from a list of restaurants, which ones to include in the vote.
+Upon the start of a new session, the host is provided with a code that should be shared with participants who wish to submit their votes.
 
-```
-# cd into the root direcotry of the app
+The **participants** navigate to Grubfinder and enter the code join the host's session. Once a participant joins, they vote “yes” or “no” on each restaurant option that the host included in the session.
 
-# create venv directory
-python3 -m venv .venv
-
-# activate the venv environment
-source .venv/bin/activate
-
-# install the dependencies for the project
-pip3 install requests
-pip3 install boto3
-
-# ensure that your IDE is using the venv for dependencies
-```
-
-### Running the "backend" locally.
-```
-# navigate to the root directory
-cd path/to/grubfinder/root/directory
-
-# run sam build
-sam build
-
-# start the api
-sam local start-api
-```
+The host ends the session and views the restaurant with the most votes. When there the votes are equally distributed across multiple restaurants, the application will break the tie by choosing a winner at random.
