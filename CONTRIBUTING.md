@@ -1,7 +1,7 @@
 # Table of contents
-Tech stack
-How to contribute to the backend
-How to contribute to the frontend
+- [Tech stack](#tech-stack)
+- [How to contribute to the backend](#how-to-contribute-to-the-backend)
+- [How to contribute to the frontend](#how-to-contribute-to-the-frontend)
 
 # Tech stack
 - **AWS Lamba** allows us to run Python code on-demand. This reduces our costs since we do not have to run a server
@@ -13,7 +13,7 @@ AWS products services.
 - **Docker** is used by SAM CLI to emulate the AWS environment using Amazon Linux.
 - **Python3** is the language being used in our AWS Lambda functions and unit tests.
 
-# How to contribute to the backend 
+# How to contribute to the backend
 To run the backend, you will need to use AWS SAM CLI. SAM CLI allows you to use infrastructure as code to create an AWS
 environment for local development and testing. You will also need to acquire a Yelp API key to get restaurant data.
 
@@ -78,7 +78,7 @@ sam build
 sam local start-api
 ```
 
-# How to contribute to the frontend 
+# How to contribute to the frontend
 ## Prerequisites
 GitHub and Git on your machine are [configured to use SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh).
 
