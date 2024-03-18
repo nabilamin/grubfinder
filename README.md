@@ -16,7 +16,8 @@ Use Grubfinder to reduce the indecision of choosing a place to eat.
 
 ## What does Grubfinder do?
 
-GrubFinder aims to reduce the cognitive load and decision fatigue associated with organizing group food orders. The primary objectives of the project are to:
+GrubFinder aims to reduce the cognitive load and decision fatigue associated with organizing group food orders. 
+The primary objectives of the project are to:
 
 1. Find highly rated, local restaurants that are currently open. 
 2. Facilitate private group voting for the best restaurant to order. 
@@ -29,12 +30,21 @@ After votes have been cast, the restaurant with the most votes wins.
 When it’s time to order food, GrubFinder guides the group to a decision.
 
 ## How does Grubfinder work?
-When the **host** needs to order food for a group, Grubfinder.io helps them identify a restaurant from which to order by polling the individuals in their group.
+### The host
+When the **host** needs to order food for a group, Grubfinder.io helps them identify a restaurant from which to order by
+polling the individuals in their group.
 Grubfinder uses a combination of web scraping and the Yelp API to identify quality restaurants in the area.
-The voting session is configured by the host, allowing them to set the type of food to include and how expensive the restaurants are.
-The host can also select, from a list of restaurants, which ones to include in the vote.
-Upon the start of a new session, the host is provided with a code that should be shared with participants who wish to submit their votes.
+The voting session is configured by the host, allowing them to set the type of food to include and how expensive the
+restaurant options are. The host also selects which restaurants to include in the session.
 
-The **participants** navigate to Grubfinder and enter the code join the host's session. Once a participant joins, they vote “yes” or “no” on each restaurant option that the host included in the session.
+Upon the start of a new session, the host is provided with a code that should be shared with participants who wish to 
+submit their votes. The host ends the session and views the restaurant with the most votes. When there the votes are 
+equally distributed across multiple restaurants, the application will break the tie by choosing a winner at random.
 
-The host ends the session and views the restaurant with the most votes. When there the votes are equally distributed across multiple restaurants, the application will break the tie by choosing a winner at random.
+### The participants
+The **participants** navigate to Grubfinder and enter the code join the host's session. Once a participant joins, they
+vote “yes” or “no” on each restaurant option that the host included in the session.
+
+## Contributing
+For technical details and information on how to contribute, see
+[CONTRIBUTING.md](./CONTRIBUTING.md)
