@@ -60,6 +60,10 @@ Temporary Items
 .idea/**/sqlDataSources.xml
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
+.idea/
+
+# Docker
+Dockerfile
 
 # Gradle:
 .idea/**/gradle.xml
