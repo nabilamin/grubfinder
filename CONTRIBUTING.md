@@ -58,13 +58,13 @@ Navigate to https://docs.aws.amazon.com/serverless-application-model/latest/deve
 
 Follow the installation instructions for your operating system
 
-## 5. Clone the repo
+## 6. Clone the repo
 In a terminal, run:
 ```bash
 $ git clone git@github.com:nabilamin/grubfinder.git
 ```
 
-## 6. Set up venv (Optional)
+## 7. Set up venv (Optional)
 Setting up venv will help your IDE resolve dependencies.
 
 In your terminal, run:
@@ -77,7 +77,7 @@ In your terminal, run:
 
 `$ pip3 install boto3`
 
-## 7. Run SAM CLI
+## 8. Run SAM CLI
 ```
 # navigate to the root directory
 cd aws_serverless
