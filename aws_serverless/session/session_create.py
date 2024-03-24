@@ -2,56 +2,18 @@
 This Lambda is responsible for creating a session and writing it to RDS.
 '''
 import json
-import os
-import uuid
 from datetime import datetime
-import random
 import boto3
-import requests
-
-def yelp_search(data):
-    '''
-    Executes a search against yelp's API.
-    '''
-    url = yelp_search_url_builder(data['location'], data['price'], data['open_at'])
-
-    headers = {
-        'accept': 'application/json',
-        'Authorization': 'Bearer ' + get_yelp_key()
-    }
-
-    response = requests.get(url, headers=headers, timeout=10)
-
-    return response
-
-
-def yelp_search_url_builder(location: str, price: int, open_at: str):
-    '''
-    Builds the url string to get a list of restaurants from.
-    '''
-    base_url = f'https://api.yelp.com/v3/businesses/search?location={location}&price={price}&term=restaurants&sort_by=rating&limit=10'
-
-    if open_at != '':
-        # todo: convert time stamp to unix time per yelp api docs
-        pass
-
-    return  base_url
-
-def get_yelp_key():
-    '''
-    Gets the api key from aws secret manager to use when requesting data from yelp's API.
-    '''
-    return os.environ.get('YELP_KEY')
-
+import session_service
 
 def lambda_handler(event, context):
     '''
     The actual lambda.
     '''
-    data = event['body']
+    data = json.loads(event['body'])
 
     try:
-        response = yelp_search(json.loads(data))
+        response = session_service.yelp_search(data)
 
         if response.status_code != 200:
             return {
@@ -85,13 +47,17 @@ def lambda_handler(event, context):
         }
 
 
-    session_id = random.randint(100000, 999999)
-    user_id = random.randint(100000, 999999)
-    host_key = str(uuid.uuid4())
+    session_id = session_service.create_random_id()
 
     restaurants = []
 
     for business in businesses:
+        # parse transactions
+        has_pickup, has_delivery = session_service.parse_transactions(business['transactions'])
+        
+        # get image urls
+        image_urls = session_service.get_images(business['alias'])
+
         restaurants.append({
             'Put': {
                 'TableName': 'Grubfinder_Restaurant',
@@ -102,7 +68,10 @@ def lambda_handler(event, context):
                     'review_count': {'N': str(business['review_count'])},
                     'rating': {'N': str(business['rating'])},
                     'address': {'S': ' '.join(business['location']['display_address'])},
-                    'vote_count': {'N': str(0)}
+                    'has_pickup': {'BOOL': has_pickup},
+                    'has_delivery': {'BOOL': has_delivery},
+                    'vote_count': {'N': str(0)},
+                    'image_urls': {'SS': image_urls}
                 }
             }
         })
@@ -113,21 +82,12 @@ def lambda_handler(event, context):
                     'TableName': 'Grubfinder_Session',
                     'Item': {
                         'session_id': {'N': str(session_id)},
-                        'host_key': {'S': host_key},
+                        'host_pin': {'S': str(data['pin'])},
                         'is_closed': {'BOOL': False},
                         'created_at': {'S': datetime.now().isoformat()}
                     }
                 }
-            },
-            {
-                'Put': {
-                    'TableName': 'Grubfinder_User',
-                    'Item': {
-                        'session_id': {'N': str(session_id)},
-                        'user_id': {'N': str(user_id)},
-                    }
-                }
-            },
+            }
         ]
     }
 
@@ -148,8 +108,6 @@ def lambda_handler(event, context):
     return {
         'statusCode': 200,
         'body': json.dumps({
-                'user_id': user_id,
-                'host_key': host_key,
                 'session_id': session_id,
         }),
     }
