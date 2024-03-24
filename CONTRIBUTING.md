@@ -44,8 +44,17 @@ Navigate to https://docs.docker.com/engine/install/
 
 Follow the installation instructions for your operating system
 
-## 4. Install AWS CLI
+## 4. Install and configure AWS CLI
 Navigate to https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+Follow the installation instructions for your operating system
+
+Navigate to https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html
+
+Choose a method for gathering credtial information for programmatic access and follow those instructions
+
+## 5. Install SAM CLI
+Navigate to https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html
 
 Follow the installation instructions for your operating system
 
@@ -71,7 +80,7 @@ In your terminal, run:
 ## 7. Run SAM CLI
 ```
 # navigate to the root directory
-cd path/to/grubfinder/root/directory
+cd aws_serverless
 
 # run sam build
 sam build
