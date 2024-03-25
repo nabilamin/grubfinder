@@ -64,12 +64,14 @@ In a terminal, run:
 $ git clone git@github.com:nabilamin/grubfinder.git
 ```
 
-## 7. Set up venv (Optional)
+## 7. Set up Python3.9 virtual environment
+You must install and use Python version 3.9.
+
 Setting up venv will help your IDE resolve dependencies.
 
-In your terminal, run:
+To set up venv, run the following in your terminal:
 
-`$ python3 -m venv .venv`
+`$ /usr/bin/python3.9 -m venv .venv`
 
 `$ source .venv/bin/activate`
 
@@ -118,7 +120,6 @@ $ git checkout -b YOUR_BRANCH_NAME
 Replace YOUR_BRANCH_NAME with the same name from Step 2.
 
 ## 4. Set branch upstream
-
 In a terminal, run:
 ```bash
 $ git branch -u origin/YOUR_BRANCH_NAME
