@@ -64,7 +64,13 @@ In a terminal, run:
 $ git clone git@github.com:nabilamin/grubfinder.git
 ```
 
-## 7. Set up Python3.9 virtual environment
+## 7. Create a local branch
+In a terminal, run:
+```bash
+$ git checkout -b YOUR_BRANCH_NAME
+```
+
+## 8. Set up Python3.9 virtual environment
 You must install and use Python version 3.9.
 
 Setting up venv will help your IDE resolve dependencies.
@@ -79,7 +85,14 @@ To set up venv, run the following in your terminal:
 
 `$ pip3 install boto3`
 
-## 8. Run SAM CLI
+## 9. Do some development
+Make a change to the code and commit it using:
+```bash
+$ git add .
+$ git commit -m "Short description of changes made"
+```
+
+## 10. Run SAM CLI
 ```
 # navigate to the root directory
 cd aws_serverless
@@ -89,6 +102,12 @@ sam build
 
 # start the api
 sam local start-api
+```
+
+## 11. Push code to your remote branch
+In a terminal, run:
+```bash
+git push --set-upstream origin YOUR_BRANCH_NAME
 ```
 
 # Contributing to the frontend
