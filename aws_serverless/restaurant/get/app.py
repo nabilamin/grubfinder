@@ -1,33 +1,63 @@
 """
-This lambda is responsible for fetching a list of all restaurant data from dynamoDB.
+This lambda takes as input a session id, and returns a list of all restaurant
+data for the session.
 """
 import json
 import boto3
+from boto3.dynamodb.conditions import Key
+
 
 def lambda_handler(event, context):
-    '''
-    The actual lambda.
-    '''
+    """
+    Queries the Grubfinder_Restaurant table for all items with a matching session id
+
+    Parameters
+        event (dict): Data passed from lambda for processing.
+        context (dict): The lambda invocation data.
+
+    Return
+        dict: The http status code and restaurant data.
+    """
 
     data = json.loads(event['body'])
 
-    session_id = data["session_id"]
+    session_id = int(data["session_id"])
+    # session_id = 685234 # For testing
 
+    dynamodb = boto3.resource('dynamodb')
     try:
-        dynamodb = boto3.client('dynamodb')
-        # TODO: write code here that fetches the data from dynamoBB table (Grubfinder_Restaurant) based on session_id.
-    except dynamodb.exceptions.TransactionCanceledException as e:
+        table = dynamodb.Table('Grubfinder_Restaurant')
+
+        response = table.query(KeyConditionExpression=Key('session_id').eq(session_id))
+
+        items = response['Items']
+
+    except (dynamodb.Client.exceptions.InternalServerError,
+            dynamodb.Client.exceptions.ResourceNotFoundException) as e:
         print('ERROR: unable to fetch restaurants: ' + str(e))
+
         return {
             'statusCode': 500,
             'body': json.dumps({
-                'message': 'error fetching restaurants'
+                'message': 'Unable to get restaurants due to a server error.'
             }),
         }
 
+    if bool(items):
+        return {
+            'statusCode': 200,
+            'body': json.dumps(items, default=default_json),
+        }
+
+    print('ERROR: No restaurants found.')
     return {
-        'statusCode': 200,
+        'statusCode': 204,
         'body': json.dumps({
-                'foo': 'bar'
+            'message': 'No restaurants found.'
         }),
     }
+
+
+def default_json(text):
+    """JSON decoder to convert non-string json values into string"""
+    return f'{text}'
