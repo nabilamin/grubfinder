@@ -54,9 +54,11 @@ def lambda_handler(event, context):
     for business in businesses:
         # parse transactions
         has_pickup, has_delivery = session_service.parse_transactions(business['transactions'])
-        
+
         # get image urls
         image_urls = session_service.get_images(business['alias'])
+
+        image_urls_dynamodb_format = [{'S': url} for url in image_urls]
 
         restaurants.append({
             'Put': {
@@ -71,7 +73,7 @@ def lambda_handler(event, context):
                     'has_pickup': {'BOOL': has_pickup},
                     'has_delivery': {'BOOL': has_delivery},
                     'vote_count': {'N': str(0)},
-                    'image_urls': {'SS': image_urls}
+                    'image_urls': {'L': image_urls_dynamodb_format}
                 }
             }
         })
