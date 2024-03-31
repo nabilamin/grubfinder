@@ -44,8 +44,9 @@
         font-weight: 800;
     }
 
-    .title {
+    .title h1 {
         font-family: 'Baloo 2 Variable', sans-serif;
+        font-size: 2rem;
         color: white;
         margin: 20px auto;
     }
