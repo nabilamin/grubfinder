@@ -67,6 +67,7 @@
         font-family: 'Baloo 2 Variable', sans-serif;
         color: #890000;
         font-weight: 700;
+        margin-top: 12px;
     }
 
     .input-group-prepend {
