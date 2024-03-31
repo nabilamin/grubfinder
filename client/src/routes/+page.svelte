@@ -9,56 +9,49 @@
 </script>
 
 <div class="container">
+    <h2 class="content-title mb-5">Need help deciding on a place to eat?</h2>
 
-    <div class="row">
-        <div class="col mb-4">
-            <h2 class="content-title">Need help deciding on a place to eat?</h2>
+    <form class="row">
+        <!--LOCATION INPUT-->
+        <div class="col-lg-4 col-md-12 mb-3">
+            <label class="visually-hidden form-label" for="location">Location</label>
+            <input type="text" class="form-control" id="location" placeholder="Enter a location"
+                   aria-label="Location"
+                   aria-describedby="session-configuration">
+            <span class="input-group-append">
+                <img src="{locationImg}" class="input-icon" alt="icon"/>
+            </span>
         </div>
 
-        <div class="row mb-3">
-            <!--LOCATION INPUT-->
-            <div class="col-lg-4 col-md-12">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <img src="{locationImg}" class="input-icon" alt="icon"/>
-                    </div>
-                    <input type="text" class="form-control" id="location" placeholder="Enter a location"
-                           aria-label="Location"
-                           aria-describedby="session-configuration">
-                </div>
-            </div>
-
-            <!--CATEGORY INPUT-->
-            <div class="col-lg-4 col-md-12">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <img src="{categoryImg}" class="input-icon" alt="icon"/>
-                    </div>
-                    <input type="text" class="form-control" id="category" placeholder="Select a food category"
-                           aria-label="Location"
-                           aria-describedby="session-configuration">
-                </div>
-            </div>
-
-            <!--PRICE INPUT-->
-            <div class="col-lg-4 col-md-12">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <img src="{priceImg}" class="input-icon" alt="icon"/>
-                    </div>
-                    <input type="text" class="form-control" id="price-range" placeholder="Select a price range"
-                           aria-label="Location"
-                           aria-describedby="session-configuration">
-                </div>
-            </div>
+        <!--CATEGORY INPUT-->
+        <div class="col-lg-4 col-md-12 mb-3">
+            <label class="visually-hidden form-label" for="category">Food category</label>
+            <input type="text" class="form-control" id="category" placeholder="Select a food category"
+                   aria-label="Location"
+                   aria-describedby="session-configuration">
+            <span class="input-group-append">
+                <img src="{categoryImg}" class="input-icon" alt="icon"/>
+            </span>
         </div>
+
+        <!--PRICE INPUT-->
+        <div class="col-lg-4 col-md-12 mb-5">
+            <label class="visually-hidden form-label" for="price-range">Price range</label>
+            <input type="text" class="form-control" id="price-range" placeholder="Select a price range"
+                   aria-label="Location"
+                   aria-describedby="session-configuration">
+            <span class="input-group-append">
+                <img src="{priceImg}" class="input-icon" alt="icon"/>
+            </span>
+        </div>
+
 
         <div class="row mb-3">
             <div class="col">
                 <button type="button" class="btn btn-primary" on:click={createSession}>Start a session</button>
             </div>
         </div>
-    </div>
+    </form>
 
 </div>
 
@@ -70,17 +63,15 @@
         margin-top: 12px;
     }
 
-    .input-group-prepend {
-        display: flex;
-        border-left: 1px solid #ced4da;
-        border-top: 1px solid #ced4da;
-        border-bottom: 1px solid #ced4da;
-        border-radius: 0.25rem;
-        padding-left: 10px;
+    .input-icon {
+        margin-left: 15px;
+        margin-right: 15px;
+        transform: translateY(-159%);
+        pointer-events: none;
     }
 
     input {
-        border-left: 0px;
+        padding-left: 37px;
     }
 
     .row > * {
