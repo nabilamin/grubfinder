@@ -9,6 +9,7 @@
 </script>
 
 <div class="container">
+
     <h2 class="content-title mb-5">Need help deciding on a place to eat?</h2>
 
     <form class="row">
@@ -77,6 +78,4 @@
     .row > * {
         padding-right: 0;
     }
-
-
 </style>
