@@ -62,6 +62,8 @@
         display: flex;
         flex-direction: column;
         margin-top: 2rem;
+        max-width: 220px;
+        max-height: 100px;
     }
 
     nav > a {
