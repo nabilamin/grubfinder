@@ -27,8 +27,8 @@
         {#if (data.route.id === "/")}
             <div class="row">
                 <nav class="bottom-nav">
-                    <a href="/session/1234/vote">JOIN A SESSION</a>
-                    <a href="/session/1234/vote">MANAGE A SESSION</a>
+                    <a href="/join">JOIN A SESSION</a>
+                    <a href="/manage">MANAGE A SESSION</a>
                 </nav>
             </div>
         {/if}
