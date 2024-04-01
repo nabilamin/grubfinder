@@ -15,7 +15,7 @@
     <div class="container text-center">
         <div class="row title">
             <div class="col ">
-                <h1>GRUBFINDER</h1>
+                <h1><a href="/">GRUBFINDER</a></h1>
             </div>
         </div>
         <div class="row main-pane">
@@ -77,5 +77,10 @@
         margin-top: 1.5rem;
         max-width: 220px;
         max-height: 100px;
+    }
+
+    .title > .col > h1 > a {
+        text-decoration: none;
+        color: white;
     }
 </style>
