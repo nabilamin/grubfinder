@@ -62,8 +62,7 @@
         display: flex;
         flex-direction: column;
         margin-top: 2rem;
-        max-width: 220px;
-        max-height: 100px;
+        align-items: center;
     }
 
     nav > a {
@@ -76,5 +75,7 @@
         font-size: 1.25rem;
         margin-bottom: 0.5rem;
         margin-top: 1.5rem;
+        max-width: 220px;
+        max-height: 100px;
     }
 </style>
