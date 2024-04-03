@@ -13,7 +13,6 @@
             index++
         }
     }
-
 </script>
 
 <h1>{data.restaurants[index].name}</h1>

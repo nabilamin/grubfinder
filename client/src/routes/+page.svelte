@@ -1,14 +1,21 @@
 <script>
+    import Loading from "../components/Loading.svelte";
+    import { isLoading } from '../store.js';
+
     const locationImg = new URL('../../static/location.svg', import.meta.url).href;
     const categoryImg = new URL('../../static/burger.svg', import.meta.url).href;
     const priceImg = new URL('../../static/dollar.svg', import.meta.url).href;
 
     function createSession() {
-        alert("this works");
+        isLoading.set(true);
+        //alert("this works");
     }
 </script>
 
 <div class="container">
+
+
+    {#if !$isLoading}
 
     <h2 class="content-title mb-5">Need help deciding on a place to eat?</h2>
 
@@ -53,6 +60,9 @@
             </div>
         </div>
     </form>
+        {:else}
+        <Loading/>
+    {/if}
 
 </div>
 

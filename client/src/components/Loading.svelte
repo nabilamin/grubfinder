@@ -10,10 +10,6 @@
       font-size: 16px;
       cursor: pointer;
     }
-body {
-    font-family: 'Baloo 2 Variable', sans-serif;
-    background-color: #f4f4f4;
-}
 .container {
     text-align: center;
     margin-top: 100px;
@@ -37,21 +33,17 @@ body {
 }
 </style>
 
-<script> 
-import { page } from '$app/stores';
-function goBack() {
-    if (document.referrer) {
-      // If there's a referrer, go back to the previous page
-      window.history.back();
-    } else {
-      // If there's no referrer, navigate to the homepage
-      window.location.href = "/";
-    }
+<script>
+  import { isLoading } from '../store.js';
+
+  function goBack() {
+    isLoading.set(false);
+    window.location.href = "#";
   };
-</script> 
+</script>
 
 <div class="container">
-    <div class="loading-spinner"></div>
-    <p>Please wait while we find your session...</p>
-    <button type="button" class="pill-button" on:click={goBack}>Go Back</button>
+  <div class="loading-spinner"></div>
+  <p>Please wait while we find your session...</p>
+  <button type="button" class="pill-button" on:click={goBack}>Go Back</button>
 </div>

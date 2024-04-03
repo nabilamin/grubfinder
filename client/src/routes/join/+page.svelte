@@ -1,18 +1,14 @@
-
-
-
 <div class="container">
     <div class="content-title">
-        <h1>Enter Lobby Code</h1></div>
-    <form action="/Loading" method="POST">
+        <h1>Enter Session Code</h1></div>
+    <form action="session/1234/vote" method="POST">
         <div class="form-group">
-            <label for="lobbyCode">Lobby Code:</label>
-            <input type="text" id="lobbyCode" name="lobbyCode" required>
+            <label for="sessionCode">Session Code:</label>
+            <input type="text" id="sessionCode" name="sessionCode" required>
         </div>
-        <input type="submit" value="Join Lobby">
+        <input class="pill-button" type="submit" value="Join Session">
     </form>
 </div>
-<p><a href="/loading">loading</a></p>
 
 <style>
     .content-title {
