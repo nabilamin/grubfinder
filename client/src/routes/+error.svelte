@@ -1,5 +1,4 @@
 <script> 
-    import { page } from '$app/stores';
     function goBack() {
         if (document.referrer) {
           // If there's a referrer, go back to the previous page
