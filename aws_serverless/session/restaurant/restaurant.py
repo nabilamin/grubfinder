@@ -23,6 +23,7 @@ def lambda_handler(event, context):
 
     dynamodb = boto3.resource('dynamodb')
     try:
+
         table = dynamodb.Table('Grubfinder_Restaurant')
 
         response = table.query(KeyConditionExpression=Key('session_id').eq(session_id))
@@ -30,8 +31,7 @@ def lambda_handler(event, context):
         items = response['Items']
 
     except (dynamodb.Client.exceptions.InternalServerError,
-            dynamodb.Client.exceptions.ResourceNotFoundException) as e:
-        print('ERROR: unable to fetch restaurants: ' + str(e))
+            dynamodb.Client.exceptions.ResourceNotFoundException):
 
         return {
             'statusCode': 500,
@@ -46,11 +46,10 @@ def lambda_handler(event, context):
             'body': json.dumps(items, default=default_json),
         }
 
-    print('ERROR: No restaurants found.')
     return {
-        'statusCode': 204,
+        'statusCode': 404,
         'body': json.dumps({
-            'message': 'No restaurants found.'
+            'message': 'Session not found.'
         }),
     }
 
