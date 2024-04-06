@@ -86,7 +86,8 @@ def lambda_handler(event, context):
                         'session_id': {'N': str(session_id)},
                         'host_pin': {'S': str(data['pin'])},
                         'is_closed': {'BOOL': False},
-                        'created_at': {'S': datetime.now().isoformat()}
+                        'created_at': {'S': datetime.now().isoformat()},
+                        'vote_count': {'N': str(0)},
                     }
                 }
             }
