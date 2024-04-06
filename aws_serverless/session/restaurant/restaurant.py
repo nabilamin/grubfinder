@@ -19,10 +19,7 @@ def lambda_handler(event, context):
         dict: The http status code and restaurant data.
     """
 
-    data = json.loads(event['body'])
-
-    session_id = int(data["session_id"])
-    # session_id = 685234 # For testing
+    session_id = int(event['pathParameters']['session_id'])
 
     dynamodb = boto3.resource('dynamodb')
     try:

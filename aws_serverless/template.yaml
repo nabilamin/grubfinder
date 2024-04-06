@@ -84,8 +84,8 @@ Resources:
   GetSessionRestaurantsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: restaurant/get/
-      Handler: app.lambda_handler
+      CodeUri: session/restaurant
+      Handler: restaurant.lambda_handler
       Runtime: python3.9
       Policies:
         - AWSSecretsManagerGetSecretValuePolicy:
@@ -106,7 +106,7 @@ Resources:
         CreateSession:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /api/restaurant/get
+            Path: /api/session/{session_id}/restaurant
             Method: get
 
   ApplicationResourceGroup:
