@@ -44,4 +44,8 @@
     h4, h5, h6 {
         margin: unset;
     }
+
+    #price-range {
+        text-indent: 20px;
+    }
 }
