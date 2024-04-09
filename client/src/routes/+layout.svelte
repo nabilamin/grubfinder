@@ -1,9 +1,9 @@
 <script>
     import '../app.css';
     import '../fonts.css';
+    import { isLoading } from '../store.js';
 
     export let data;
-
     const bgImageSrc = new URL('../../static/Grubfinder_background.svg', import.meta.url).href;
 </script>
 
@@ -23,8 +23,7 @@
                 <slot></slot>
             </div>
         </div>
-
-        {#if (data.route.id === "/")}
+        {#if (data.route.id === "/" && !$isLoading)}
             <div class="row">
                 <nav class="bottom-nav">
                     <a href="/join">JOIN A SESSION</a>
