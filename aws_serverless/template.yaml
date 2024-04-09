@@ -77,6 +77,25 @@ Resources:
           Properties:
             Path: /api/session/create
             Method: post
+  
+  GetSessionFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: session
+      Handler: session_get.lambda_handler
+      Runtime: python3.9
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName:
+              Grubfinder_Session
+      Architectures:
+      - x86_64
+      Events:
+        CreateSession:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /api/session/{session_id}
+            Method: get
 
   GetSessionRestaurantsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -85,12 +104,6 @@ Resources:
       Handler: restaurant.lambda_handler
       Runtime: python3.9
       Policies:
-        - AWSSecretsManagerGetSecretValuePolicy:
-            SecretArn:
-              arn:aws:secretsmanager:us-east-1:600091550595:secret:yelp_key-M2asns
-        - DynamoDBReadPolicy:
-            TableName:
-              Grubfinder_Session
         - DynamoDBReadPolicy:
             TableName:
               Grubfinder_Restaurant
@@ -110,9 +123,6 @@ Resources:
       Handler: vote.lambda_handler
       Runtime: python3.9
       Policies:
-        - AWSSecretsManagerGetSecretValuePolicy:
-            SecretArn:
-              arn:aws:secretsmanager:us-east-1:600091550595:secret:yelp_key-M2asns
         - DynamoDBWritePolicy:
             TableName:
               Grubfinder_Restaurant
