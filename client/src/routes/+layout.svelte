@@ -7,10 +7,7 @@
     const bgImageSrc = new URL('../../static/Grubfinder_background.svg', import.meta.url).href;
 </script>
 
-<div style="background-image: url({bgImageSrc});
-                            width: 100vw;
-                            height: 100vh;
-                            position: absolute;">
+<div class="bg" style="background-image: url({bgImageSrc});">
 
     <div class="container text-center">
         <div class="row title">
@@ -81,5 +78,9 @@
     .title > .col > h1 > a {
         text-decoration: none;
         color: white;
+    }
+
+    .bg {
+        min-height: 100vh;
     }
 </style>
