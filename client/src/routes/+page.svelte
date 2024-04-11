@@ -2,11 +2,14 @@
 
     import Loading from "../components/Loading.svelte";
     import { isLoading } from '../store.js';
-    import { onMount } from 'svelte';
 
     const locationImg = new URL('../../static/location.svg', import.meta.url).href;
     const lockImg = new URL('../../static/lock.svg', import.meta.url).href;
     const priceImg = new URL('../../static/dollar.svg', import.meta.url).href;
+
+    let location = "",
+        priceRange = "",
+        pin = "";
         
 
     // Function to create a session with the user input
@@ -48,7 +51,6 @@
 
 <div class="container">
 
-
     {#if !$isLoading}
 
     <h2 class="content-title mb-5">Need help deciding on a place to eat?</h2>
@@ -63,7 +65,7 @@
             <span class="input-group-append">
                 <img src="{locationImg}" class="input-icon" alt="icon"/>
             </span>
-        </div>
+            </div>
 
         <!--PRICE INPUT-->
         <div class="col-lg-4 col-md-12 mb-3">
@@ -96,6 +98,7 @@
         </div>
     </form>
         {:else}
+
         <Loading/>
     {/if}
 
