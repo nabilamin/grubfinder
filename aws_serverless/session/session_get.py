@@ -25,7 +25,7 @@ def lambda_handler(event, context):
 
         response = table.query(KeyConditionExpression=Key('session_id').eq(session_id))
 
-        item = response['Items'][0]
+        items = response['Items']
 
     except(IndexError, botocore.exceptions.ClientError):
         return {
@@ -34,6 +34,16 @@ def lambda_handler(event, context):
                 'message': 'unable to get session due to a server error'
             }),
         }
+
+    if len(items) == 0:
+        return {
+            'statusCode': 404,
+            'body': json.dumps({
+                'message': 'session not found'
+        }),
+    }
+
+    item = items[0]
 
     try:
         pin = int(event['headers']['Authorization'])
@@ -64,17 +74,9 @@ def lambda_handler(event, context):
     # do not return the host pin
     del item['host_pin']
 
-    if item:
-        return {
-            'statusCode': 200,
-            'body': json.dumps(item, default=default_json),
-        }
-
     return {
-        'statusCode': 404,
-        'body': json.dumps({
-            'message': 'session not found'
-        }),
+        'statusCode': 200,
+        'body': json.dumps(item, default=default_json),
     }
 
 
