@@ -7,14 +7,42 @@
     const lockImg = new URL('../../static/lock.svg', import.meta.url).href;
     const priceImg = new URL('../../static/dollar.svg', import.meta.url).href;
 
-    let location = "",
-        priceRange = "",
-        pin = "";
-        
+    // Initialize variables to store user input
+    let location = '';
+    let priceRange = '';
+    let pin = '';
+    // Initialize variables to store error messages
+    let locationError = '';
+    let priceRangeError = '';
+    let pinError = '';
 
     // Function to create a session with the user input
     async function createSession() {
-      isLoading.set(true);
+        isLoading.set(true);
+      
+        // Reset error messages
+        locationError = '';
+        priceRangeError = '';
+        pinError = '';
+
+        // Input validation
+        let valid = true;
+        if (location === '') {
+            locationError = 'Please enter a valid location';
+            valid = false;
+        }
+        if (priceRange === '') {
+            priceRangeError = 'Please select a price range';
+            valid = false;
+        }
+        if (pin === '' || pin.length !== 4 || !/^\d+$/.test(pin)) {
+            pinError = 'Please enter a 4-digit numerical pin';
+            valid = false;
+        }
+
+        if (!valid) {
+            return;
+        }
 
         // Data object to send to backend
         const data = {
@@ -22,10 +50,6 @@
             priceRange: priceRange,
             pin: pin
         };
-
-        // Show data for testing purposes
-        console.log(data);
-        alert('Session was created with the following data: ' + JSON.stringify(data));
 
         // Put request to backend to create a session
         try {
@@ -62,6 +86,9 @@
             <input type="text" class="form-control" id="location" placeholder="Enter a location"
                    aria-label="Location"
                    aria-describedby="session-configuration" bind:value={location}>
+            {#if locationError}
+                <div class="error-message">{locationError}</div>
+            {/if}
             <span class="input-group-append">
                 <img src="{locationImg}" class="input-icon" alt="icon"/>
             </span>
@@ -77,6 +104,9 @@
                 <option value="3">$$$</option>
                 <option value="4">$$$$</option>
             </select>
+            {#if priceRangeError}
+                <div class="error-message">{priceRangeError}</div>
+            {/if}
             <span class="input-group-append">
                 <img src="{priceImg}" class="input-icon" alt="icon"/>
             </span>
@@ -86,6 +116,9 @@
         <div class="col-lg-4 col-md-12 mb-3">
             <label class="visually-hidden form-label" for="pin">Session pin</label>
             <input type="text" class="form-control" id="pin" placeholder="Enter a session pin" aria-label="Location" aria-describedby="session-configuration" bind:value={pin} maxlength="4" minlength="4" pattern="\d{4}">
+            {#if pinError}
+                <div class="error-message">{pinError}</div>
+            {/if}
             <span class="input-group-append">
                 <img src="{lockImg}" class="input-icon" alt="icon"/>
             </span>
@@ -117,6 +150,14 @@
         margin-right: 15px;
         transform: translateY(-159%);
         pointer-events: none;
+    }
+
+    .error-message {
+        color: #890000;
+        font-size: 0.8em;
+        margin-top: 5px;
+        position: absolute;
+        padding-left: 38px;
     }
 
     input {
