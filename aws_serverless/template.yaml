@@ -75,7 +75,7 @@ Resources:
         CreateSession:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /api/session/create
+            Path: /session/create
             Method: post
   
   GetSessionFunction:
@@ -94,7 +94,7 @@ Resources:
         CreateSession:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /api/session/{session_id}
+            Path: /session/{session_id}
             Method: get
 
   GetSessionRestaurantsFunction:
@@ -113,7 +113,7 @@ Resources:
         CreateSession:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /api/session/{session_id}/restaurant
+            Path: /session/{session_id}/restaurant
             Method: get
 
   GetSessionRestaurantFunction:
@@ -132,7 +132,7 @@ Resources:
         CreateSession:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /api/session/{session_id}/restaurant/{restaurant_id}
+            Path: /session/{session_id}/restaurant/{restaurant_id}
             Method: get
   
   SubmitVotesFunction:
@@ -154,7 +154,7 @@ Resources:
         CreateSession:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /api/session/{session_id}/vote
+            Path: /session/{session_id}/vote
             Method: post
 
   ApplicationResourceGroup:
