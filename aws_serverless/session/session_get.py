@@ -2,9 +2,17 @@
 This lambda returns a session's details.
 """
 import json
+from decimal import Decimal
 import boto3
 import botocore.exceptions
 from boto3.dynamodb.conditions import Key
+
+def decimal_default(obj):
+    """
+    custom decimal serializer
+    """
+    if isinstance(obj, Decimal):
+        return int(obj)
 
 
 def lambda_handler(event, context):
@@ -61,6 +69,8 @@ def lambda_handler(event, context):
     except KeyError:
         # unauthenticated request - do not show vote count
         del item['vote_count']
+    except TypeError:
+        pass
     except ValueError:
         # bad value, return unauthorized
         return {
@@ -76,5 +86,5 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': item,
+        'body': json.dumps(item, default=decimal_default),
     }
