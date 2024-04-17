@@ -76,10 +76,5 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': json.dumps(item, default=default_json),
+        'body': item,
     }
-
-
-def default_json(text):
-    """JSON decoder to convert non-string json values into string"""
-    return f'{text}'
