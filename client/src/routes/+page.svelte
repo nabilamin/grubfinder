@@ -53,7 +53,7 @@
 
         // Put request to backend to create a session
         try {
-            const response = await fetch('https://api.grubfinder.io/api/session/create', {
+            const response = await fetch('https://api.grubfinder.io/session/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
