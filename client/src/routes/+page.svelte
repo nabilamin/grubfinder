@@ -46,9 +46,10 @@
 
         // Data object to send to backend
         const data = {
-            location: location,
-            priceRange: priceRange,
-            pin: pin
+            "location": location,
+            "price": priceRange,
+            "pin": pin,
+            "open_at": ""
         };
 
         // Put request to backend to create a session
@@ -60,18 +61,21 @@
                 },
                 body: JSON.stringify(data)
             });
+
+            const responseBody = await response.json();
+
             // Check response
-            if (response.ok) {
-                console.log('Session created successfully');
-            } else {
+            if (response.ok)
+                console.log('Session created successfully with id: ' + responseBody.session_id);
+            else
                 console.log('Error: Session creation failed');
-            }
-        } catch (error) {
+
+        }
+        catch (error) {
             console.error('Error:', error);
         }
     }
 </script>
-
 
 <div class="container">
 
