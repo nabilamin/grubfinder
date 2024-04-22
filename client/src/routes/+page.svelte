@@ -1,11 +1,16 @@
 <script>
-
+    import { goto } from '$app/navigation';
     import Loading from "../components/Loading.svelte";
     import { isLoading } from '../store.js';
+    import { onDestroy } from "svelte";
 
     const locationImg = new URL('../../static/location.svg', import.meta.url).href;
     const lockImg = new URL('../../static/lock.svg', import.meta.url).href;
     const priceImg = new URL('../../static/dollar.svg', import.meta.url).href;
+
+    let displayLoadPage = false;
+    const unsubscribe = isLoading.subscribe((value) => displayLoadPage = value);
+    onDestroy(unsubscribe);
 
     // Initialize variables to store user input
     let location = '';
@@ -16,10 +21,10 @@
     let priceRangeError = '';
     let pinError = '';
 
+    let sessionId = "";
+
     // Function to create a session with the user input
     async function createSession() {
-        isLoading.set(true);
-      
         // Reset error messages
         locationError = '';
         priceRangeError = '';
@@ -44,6 +49,8 @@
             return;
         }
 
+        isLoading.set(true);
+
         // Data object to send to backend
         const data = {
             "location": location,
@@ -64,9 +71,15 @@
 
             const responseBody = await response.json();
 
-            // Check response
+            sessionId = responseBody.session_id
+
+            if (sessionId) {
+                goto(`/session/${sessionId}/confirmation`);
+                isLoading.set(false);
+            }
+
             if (response.ok)
-                console.log('Session created successfully with id: ' + responseBody.session_id);
+                console.log('Session created successfully with id: ' + sessionId);
             else
                 console.log('Error: Session creation failed');
 
@@ -78,9 +91,9 @@
 </script>
 
 <div class="container">
-
-    {#if !$isLoading}
-
+    {#if displayLoadPage}
+        <Loading />
+    {:else}
     <h2 class="content-title mb-5">Need help deciding on a place to eat?</h2>
 
     <form class="row">
@@ -134,9 +147,7 @@
             </div>
         </div>
     </form>
-        {:else}
 
-        <Loading/>
     {/if}
 
 </div>
