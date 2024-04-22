@@ -10,6 +10,7 @@ Globals:
   Api:
     Cors:
       AllowOrigin: "'*'"
+      AllowHeaders: "'Content-Type'"
   Function:
     Timeout: 30
     MemorySize: 128

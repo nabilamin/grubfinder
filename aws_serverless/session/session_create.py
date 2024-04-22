@@ -110,6 +110,11 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 201,
+        'headers': {
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'OPTIONS,POST'
+        },
         'body': json.dumps({
                 'session_id': session_id,
         }),
