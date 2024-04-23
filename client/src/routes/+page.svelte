@@ -1,16 +1,10 @@
 <script>
     import { goto } from '$app/navigation';
-    import Loading from "../components/Loading.svelte";
     import { isLoading } from '../store.js';
-    import { onDestroy } from "svelte";
 
     const locationImg = new URL('../../static/location.svg', import.meta.url).href;
     const lockImg = new URL('../../static/lock.svg', import.meta.url).href;
     const priceImg = new URL('../../static/dollar.svg', import.meta.url).href;
-
-    let displayLoadPage = false;
-    const unsubscribe = isLoading.subscribe((value) => displayLoadPage = value);
-    onDestroy(unsubscribe);
 
     // Initialize variables to store user input
     let location = '';
@@ -49,8 +43,6 @@
             return;
         }
 
-        isLoading.set(true);
-
         // Data object to send to backend
         const data = {
             "location": location,
@@ -61,6 +53,7 @@
 
         // Put request to backend to create a session
         try {
+            isLoading.set(true);
             const response = await fetch('https://api.grubfinder.io/session/create', {
                 method: 'POST',
                 headers: {
@@ -71,10 +64,10 @@
 
             const responseBody = await response.json();
 
-            sessionId = responseBody.session_id
+            sessionId = responseBody.session_id;
 
             if (sessionId) {
-                goto(`/session/${sessionId}/confirmation`);
+                await goto(`/session/${sessionId}/confirmation`);
                 isLoading.set(false);
             }
 
@@ -82,7 +75,6 @@
                 console.log('Session created successfully with id: ' + sessionId);
             else
                 console.log('Error: Session creation failed');
-
         }
         catch (error) {
             console.error('Error:', error);
@@ -91,9 +83,6 @@
 </script>
 
 <div class="container">
-    {#if displayLoadPage}
-        <Loading />
-    {:else}
     <h2 class="content-title mb-5">Need help deciding on a place to eat?</h2>
 
     <form class="row">
@@ -148,7 +137,7 @@
         </div>
     </form>
 
-    {/if}
+    <!--{/if}-->
 
 </div>
 
