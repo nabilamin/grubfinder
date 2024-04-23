@@ -6,19 +6,18 @@ export async function load({params}) {
         {
             method: 'GET',
             headers: {
-                'Authorization': '',
                 'Content-Type': 'application/json'
             },
         });
 
         if (response.ok)
-            console.log(`Session created successfully with id: ${params.slug}`);
+            console.log(`Successfully retrieved session with id: ${params.slug}`);
         else
-            console.log('Error: Session creation failed');
+            console.log('Error: Getting session failed');
 
         const responseBody = await response.json();
 
-        const voteCount = responseBody.vote_count;
+        const voteCount = responseBody;
 
         if (voteCount) {
             isLoading.set(false);
