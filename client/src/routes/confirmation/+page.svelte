@@ -1,16 +1,3 @@
-<script>
-    // Function to navigate back to the home screen
-    function goHome() {
-      window.location.href = "/";
-    }
-  </script>
-  
-  <div class="container">
-    <h1>Voting Complete</h1>
-    <p>Check in with your host for the results.</p>
-    <button class="pill-button" on:click={goHome}>Go to Home</button>
-  </div>
-  
   <style>
     .container {
       text-align: center;
@@ -33,3 +20,16 @@
       font-weight: 700;
     }
   </style>
+<script>
+    // Function to navigate back to the home screen
+    function goHome() {
+      window.location.href = "/";
+    }
+  </script>
+  
+  <div class="container">
+    <h1>Voting Complete</h1>
+    <p>Check in with your host for the results.</p>
+    <button class="pill-button" on:click={goHome}>Go to Home</button>
+  </div>
+  
