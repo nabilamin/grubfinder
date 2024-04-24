@@ -15,7 +15,6 @@ export async function load({params}) {
 
         const responseBody = await response.json();
 
-        // TODO: Get vote count
         const sessionRestaurants = responseBody;
 
         if (sessionRestaurants) {
