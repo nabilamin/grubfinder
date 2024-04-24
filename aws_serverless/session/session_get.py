@@ -2,9 +2,17 @@
 This lambda returns a session's details.
 """
 import json
+from decimal import Decimal
 import boto3
 import botocore.exceptions
 from boto3.dynamodb.conditions import Key
+
+def decimal_default(obj):
+    """
+    custom decimal serializer
+    """
+    if isinstance(obj, Decimal):
+        return int(obj)
 
 
 def lambda_handler(event, context):
@@ -25,7 +33,7 @@ def lambda_handler(event, context):
 
         response = table.query(KeyConditionExpression=Key('session_id').eq(session_id))
 
-        item = response['Items'][0]
+        items = response['Items']
 
     except(IndexError, botocore.exceptions.ClientError):
         return {
@@ -34,6 +42,16 @@ def lambda_handler(event, context):
                 'message': 'unable to get session due to a server error'
             }),
         }
+
+    if len(items) == 0:
+        return {
+            'statusCode': 404,
+            'body': json.dumps({
+                'message': 'session not found'
+        }),
+    }
+
+    item = items[0]
 
     try:
         pin = int(event['headers']['Authorization'])
@@ -51,6 +69,8 @@ def lambda_handler(event, context):
     except KeyError:
         # unauthenticated request - do not show vote count
         del item['vote_count']
+    except TypeError:
+        pass
     except ValueError:
         # bad value, return unauthorized
         return {
@@ -64,20 +84,12 @@ def lambda_handler(event, context):
     # do not return the host pin
     del item['host_pin']
 
-    if item:
-        return {
-            'statusCode': 200,
-            'body': json.dumps(item, default=default_json),
-        }
-
     return {
-        'statusCode': 404,
-        'body': json.dumps({
-            'message': 'session not found'
-        }),
+        'statusCode': 200,
+        'headers': {
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'OPTIONS,GET'
+        },
+        'body': json.dumps(item, default=decimal_default),
     }
-
-
-def default_json(text):
-    """JSON decoder to convert non-string json values into string"""
-    return f'{text}'

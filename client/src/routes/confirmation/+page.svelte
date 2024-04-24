@@ -1,3 +1,4 @@
+
   <style>
     .container {
       text-align: center;
@@ -32,4 +33,4 @@
     <p>Check in with your host for the results.</p>
     <button class="pill-button" on:click={goHome}>Go to Home</button>
   </div>
-  
+
