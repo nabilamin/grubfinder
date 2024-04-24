@@ -2,6 +2,7 @@
     import '../app.css';
     import '../fonts.css';
     import { isLoading } from '../store.js';
+    import { navigating } from "$app/stores";
     import Loading from "../components/Loading.svelte";
 
     export let data;
@@ -17,7 +18,7 @@
             </div>
         </div>
         <div class="row main-pane">
-            {#if $isLoading}
+            {#if ($isLoading || $navigating)}
                 <Loading/>
             {:else}
             <div class="col">
@@ -25,7 +26,7 @@
             </div>
             {/if}
         </div>
-        {#if (data.route.id === "/" && !$isLoading)}
+        {#if (data.route.id === "/" && !$isLoading && !$navigating)}
             <div class="row">
                 <nav class="bottom-nav">
                     <a href="/join">JOIN A SESSION</a>
