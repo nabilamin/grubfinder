@@ -16,5 +16,5 @@
 
 <h1>Manage your session</h1>
 <p>Session ID: {$page.params.slug}</p>
-<p>Vote count: {JSON.stringify(data.created_at)}</p>
+<p>Vote count: {JSON.stringify(data.vote_count)}</p>
 <p>Session URL: {getSessionUrl()}</p>

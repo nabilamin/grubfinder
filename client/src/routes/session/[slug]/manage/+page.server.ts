@@ -1,4 +1,5 @@
 import {isLoading} from "../../../../store";
+
 export async function load({params}) {
     try {
         isLoading.set(true);
@@ -6,7 +7,8 @@ export async function load({params}) {
         {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': '1234'
             },
         });
 
@@ -16,6 +18,8 @@ export async function load({params}) {
             console.log('Error: Getting session failed');
 
         const responseBody = await response.json();
+
+        console.log(JSON.stringify(responseBody.vote_count));
 
         const voteCount = responseBody;
 

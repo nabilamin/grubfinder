@@ -1,3 +1,28 @@
+<script>
+    import {goto} from "$app/navigation";
+
+    let session = "";
+    let pin = "";
+
+    const handleSubmit = async () => {
+
+        const response = await fetch("?/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({session, pin})
+        });
+
+        const responseBody = await response.json();
+
+        if(responseBody.status === 200) {
+            goto(`/session/${session}/manage`)
+        }
+    };
+
+</script>
+
 <div class="container">
     <div class="row">
         <div class="col">
@@ -5,24 +30,40 @@
                 <h1>Manage a Session</h1>
             </div>
             <div class="form">
-            <form action="session/1234/vote" method="POST">
-                <div class="row justify-content-center">
-                    <div class="col-md-auto">
-                    <label for="sessionCode" class="visually-hidden form-label">Session Code</label>
-                    <input style="text-align:center" type="text" class="form-control" id="category" placeholder="Enter a Session Code"
-                   aria-label="Location"
-                   aria-describedby="session-configuration">
-                   </div>
-                   <div class="col-md-auto">
-                   <label for="userPin" class="visually-hidden form-label">User Pin</label>
-                   <input style="text-align:center" type="text" class="form-control" id="category" placeholder="Enter a User Pin"
-                  aria-label="Location"
-                  aria-describedby="session-configuration">
-                </div>
-                </div>
-                <button class="pill-button" type="submit">Manage Session</button>
-            </form>
-        </div>
+                <form on:submit|preventDefault="{handleSubmit}">
+<!--                <form on:submit|preventDefault="{handleSubmit}" action="?/validate" method="POST">-->
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-auto">
+                            <label for="sessionCode" class="visually-hidden form-label">Session Code</label>
+                            <input style="text-align:center"
+                                   type="text"
+                                   class="form-control"
+                                   id="category"
+                                   placeholder="Enter a Session Code"
+                                   aria-label="Location"
+                                   aria-describedby="session-configuration"
+                                   name="sessionId"
+                                   bind:value={session} />
+                        </div>
+
+                        <div class="col-md-auto">
+                            <label for="userPin" class="visually-hidden form-label">User Pin</label>
+                            <input style="text-align:center"
+                                   type="text"
+                                   class="form-control"
+                                   id="category"
+                                   placeholder="Enter a User Pin"
+                                   aria-label="Location"
+                                   aria-describedby="session-configuration"
+                                   name="sessionPin"
+                                   bind:value={pin} />
+                        </div>
+
+                    </div>
+                    <button class="pill-button" type="submit">Manage Session</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
