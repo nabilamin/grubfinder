@@ -1,4 +1,20 @@
 import {isLoading} from "../../../../store";
+let pin: any;
+
+export const actions = {
+    default: async ({cookies,request}) => {
+        const data = await request.formData();
+        const sessionId = data.get("sessionId");
+        const sessionPin = data.get("sessionPin");
+
+        pin = sessionPin;
+        // console.log("Server side -> " + session + " " + pin);
+
+        // Enhancement: store cookie
+
+        return {"success": true};
+    }
+};
 
 export async function load({params}) {
     try {
@@ -8,7 +24,7 @@ export async function load({params}) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': '1234'
+                'Authorization': pin
             },
         });
 
@@ -21,14 +37,28 @@ export async function load({params}) {
 
         console.log(JSON.stringify(responseBody.vote_count));
 
-        const voteCount = responseBody;
+        // vote_count is undefined when pin is incorrect
+        const voteCount = responseBody.vote_count;
 
-        if (voteCount) {
-            isLoading.set(false);
-            return voteCount;
-        }
+        isLoading.set(false);
+
+        return {voteCount};
+
+
+        // if (responseBody.vote_count > -1) {
+        //     console.log("WE HAVE A VOTE COUNT");
+        //     isLoading.set(false);
+        //     return {voteCount};
+        // }
+        // else {
+        //     console.log("NO VOTE COUNT");
+        //     isLoading.set(false);
+        //     return {voteCount};
+        // }
     }
     catch (error) {
         console.error('Error:', error);
     }
 }
+
+

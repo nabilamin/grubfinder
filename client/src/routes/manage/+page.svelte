@@ -30,8 +30,10 @@
                 <h1>Manage a Session</h1>
             </div>
             <div class="form">
-                <form on:submit|preventDefault="{handleSubmit}">
-<!--                <form on:submit|preventDefault="{handleSubmit}" action="?/validate" method="POST">-->
+<!--                Saved the following commented out lines for learning-->
+<!--                <form on:submit|preventDefault="{handleSubmit}">-->
+<!--                <form action="?/validate" method="POST">-->
+                <form action="/session/{session}/manage" method="POST">
 
                     <div class="row justify-content-center">
                         <div class="col-md-auto">
