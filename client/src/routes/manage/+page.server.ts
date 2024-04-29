@@ -2,7 +2,7 @@
 // Keeping this for learning and future reference
 // export const actions = {
 //     validate: async ({cookies,request}) => {
-//         const data = await request.json();
+//         const data = await request.formData();
 //         const sessionId = data.sessionId;
 //         const sessionPin = data.sessionPin;
 //
