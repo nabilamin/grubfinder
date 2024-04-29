@@ -3,8 +3,8 @@
 // export const actions = {
 //     validate: async ({cookies,request}) => {
 //         const data = await request.formData();
-//         const sessionId = data.sessionId;
-//         const sessionPin = data.sessionPin;
+//         const sessionId = data.get("sessionId");
+//         const sessionPin = data.get("sessionPin");
 //
 //         console.log("Server side -> " + sessionId + " " + sessionPin);
 //
