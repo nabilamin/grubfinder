@@ -160,6 +160,31 @@ Resources:
           Properties:
             Path: /session/{session_id}/vote
             Method: post
+  
+  EndSessionFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: session
+      Handler: session_end.lambda_handler
+      Runtime: python3.9
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName:
+              Grubfinder_Restaurant
+        - DynamoDBReadPolicy:
+            TableName:
+              Grubfinder_Session
+        - DynamoDBWritePolicy:
+            TableName:
+              Grubfinder_Session
+      Architectures:
+      - x86_64
+      Events:
+        CreateSession:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /session/{session_id}/end
+            Method: post
 
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
