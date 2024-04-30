@@ -4,23 +4,42 @@
     let session = "";
     let pin = "";
 
+    //Using custom request since we want to show loading screen before POST-ing form data
     const handleSubmit = async () => {
+        let params = new URLSearchParams();
+        params.append("sessionPin", pin);
+        params.append("sessionId", session);
 
-        const response = await fetch("?/", {
+        // POST form data
+        const response = await fetch("/session/{session}/manage", {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({session, pin})
+            body: params
         });
 
         const responseBody = await response.json();
 
-        if(responseBody.status === 200) {
+        if(responseBody.status === 200)
             goto(`/session/${session}/manage`)
-        }
     };
 
+
+    // Commented out as one option for passing posting form data
+    // const handleSubmit = async () => {
+    //
+    //     const response = await fetch("?/", {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({session, pin})
+    //     });
+    //
+    //     const responseBody = await response.json();
+    //
+    //     if(responseBody.status === 200) {
+    //         goto(`/session/${session}/manage`)
+    //     }
+    // };
 </script>
 
 <div class="container">
@@ -33,7 +52,8 @@
 <!--                Saved the following commented out lines for learning-->
 <!--                <form on:submit|preventDefault="{handleSubmit}">-->
 <!--                <form action="?/validate" method="POST">-->
-                <form action="/session/{session}/manage" method="POST">
+<!--                <form action="/session/{session}/manage" method="POST">-->
+                <form id="manage-form" on:submit={handleSubmit}>
 
                     <div class="row justify-content-center">
                         <div class="col-md-auto">

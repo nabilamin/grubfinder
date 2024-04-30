@@ -3,8 +3,9 @@ let pin: any;
 
 export const actions = {
     default: async ({cookies,request}) => {
+
         const data = await request.formData();
-        const sessionId = data.get("sessionId");
+        // const sessionId = data.get("sessionId");
         const sessionPin = data.get("sessionPin");
 
         pin = sessionPin;
@@ -57,6 +58,7 @@ export async function load({params}) {
         // }
     }
     catch (error) {
+        isLoading.set(false);
         console.error('Error:', error);
     }
 }
