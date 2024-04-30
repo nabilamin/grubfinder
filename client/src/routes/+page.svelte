@@ -1,6 +1,7 @@
 <script>
     import { goto } from '$app/navigation';
     import { isLoading } from '../store.js';
+    import sanitizeHtml from 'sanitize-html';
 
     const locationImg = new URL('../../static/location.svg', import.meta.url).href;
     const lockImg = new URL('../../static/lock.svg', import.meta.url).href;
@@ -17,6 +18,23 @@
 
     let sessionId = "";
 
+    /**
+     * @param {string} location
+     * @param {string} pin
+     */
+    function sanitizeInput(location, pin) {
+        // JavaScript function to sanitize user input by removing any potentially harmful HTML elements, whitelist approach
+        console.log('Before: ' + location + ' ' + pin)
+        const sanitizedLocation = sanitizeHtml(location);
+        const sanitizedPin = sanitizeHtml(pin);
+        console.log('After: ' + sanitizedLocation + ' ' + sanitizedPin)
+
+        return {
+            sanitizedLocation,
+            sanitizedPin
+        };
+    }
+
     // Function to create a session with the user input
     async function createSession() {
         // Reset error messages
@@ -26,7 +44,8 @@
 
         // Input validation
         let valid = true;
-        if (location === '') {
+        // Chargoggagoggmanchauggagoggchaubunagungamaugg, Massachusetts is the longest place name in the United States
+        if (location === '' || location.trim().length > 60) {
             locationError = 'Please enter a valid location';
             valid = false;
         }
@@ -43,11 +62,14 @@
             return;
         }
 
+        // Sanitize user input
+        const { sanitizedLocation, sanitizedPin } = sanitizeInput(location, pin);
+
         // Data object to send to backend
         const data = {
-            "location": location,
+            "location": sanitizedLocation,
             "price": priceRange,
-            "pin": pin,
+            "pin": sanitizedPin,
             "open_at": ""
         };
 
@@ -176,3 +198,4 @@
         text-indent: 26px;
     }
 </style>
+
