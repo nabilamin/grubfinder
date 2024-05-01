@@ -11,7 +11,7 @@
         params.append("sessionId", session);
 
         // POST form data
-        const response = await fetch("/session/{session}/manage", {
+        const response = await fetch(`/session/${session}/manage`, {
             method: 'POST',
             body: params
         });
