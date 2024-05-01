@@ -1,4 +1,6 @@
 <script lang="ts">
+    import {page} from "$app/stores";
+
     export let data: object;
     const restaurants = data.sessionRestaurants;
     const sessionExists = restaurants && restaurants.length > 0;
@@ -8,12 +10,31 @@
     let index: number = 0;
     let votingResponse = new Map<string, boolean>();
 
-    function handleClick(response: boolean) {
-        votingResponse.set(restaurants[index].id, response);
+    async function handleClick(voterResponse: boolean) {
+        votingResponse.set(restaurants[index].restaurant_id, voterResponse);
+
+        // console.log("Adding " + JSON.stringify(restaurants[index]) + " - " + voterResponse);
 
         if (index + 1 == restaurants.length) {
-            // Send data to Lambda
-            console.log(votingResponse);
+            let votingData: {[key: string]: boolean} = {};
+            votingResponse.forEach((val, key) => {
+                votingData[key] = val;
+            });
+
+           const response = await fetch(`/session/${$page.params.slug}/vote`,{
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(votingData)
+            });
+
+           const responseBody = await response.json();
+
+            console.log("Request body is " + JSON.stringify(votingData));
+            console.log("Response body is " + JSON.stringify(responseBody));
+
+
         } else {
             index++
         }
