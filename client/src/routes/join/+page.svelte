@@ -1,3 +1,25 @@
+<script>
+    import {goto} from "$app/navigation";
+
+    let session = "";
+
+    const handleSubmit = async () => {
+        let params = new URLSearchParams();
+        params.append("sessionId", session);
+
+        // POST form data
+        const response = await fetch(`/session/${session}/manage`, {
+            method: 'POST',
+            body: params
+        });
+
+        const responseBody = await response.json();
+
+        if(responseBody.status === 200)
+            goto(`/session/${session}/vote`)
+    };
+</script>
+
 <div class="container">
     <div class="row">
         <div class="col">
@@ -5,11 +27,12 @@
                 <h1>Enter Session Code</h1>
             </div>
             <div class="form">
-            <form action="session/1234/vote" method="POST">
+            <form id="manage-form" on:submit={handleSubmit}>
                     <label for="sessionCode" class="visually-hidden form-label">Session Code</label>
                     <input style="text-align:center" type="text" class="form-control" id="category" placeholder="Session Code"
                    aria-label="Location"
-                   aria-describedby="session-configuration">
+                   aria-describedby="session-configuration"
+                    bind:value={session}>
                 <button class="pill-button" type="submit">Join Session</button>
             </form>
         </div>

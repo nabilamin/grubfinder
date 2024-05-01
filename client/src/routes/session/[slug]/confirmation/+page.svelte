@@ -12,7 +12,7 @@
     {"< Go home"}
 </button>
 
-<button class="btn btn-primary" type="button" on:click={() => goto(`/session/${sessionId}/manage`)}>
+<button class="btn btn-primary" type="button" on:click={() => goto(`/manage`)}>
     Manage session
 </button>
 
