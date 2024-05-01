@@ -1,5 +1,6 @@
 <script>
     import {page} from "$app/stores";
+    import {isLoading} from "../../../../store.js";
 
     export let data;
 
@@ -17,6 +18,28 @@
     function goBack() {
         history.back();
     }
+
+    async function endSession() {
+        isLoading.set(true);
+
+        try {
+            const response = await fetch(`https://api.grubfinder.io/session/${$page.params.slug}/end`, {
+                method: "POST",
+                body: ""
+            });
+
+            const responseBody = await response.json();
+
+            console.log(responseBody);
+            isLoading.set(false);
+        }
+        catch (e) {
+            isLoading.set(false);
+            console.log("ERR -> " + e);
+        }
+
+        isLoading.set(false);
+    }
 </script>
 
 {#if data.voteCount > -1}
@@ -24,6 +47,8 @@
     <p>Session ID: {$page.params.slug}</p>
     <p>Vote count: {JSON.stringify(data.voteCount)}</p>
     <p>Session URL: {getSessionUrl()}</p>
+
+    <button on:click={endSession}>End session</button>
 {:else }
     <p>Invalid session id or pin</p>
     <button type="button" class="pill-button" on:click={goBack}>Go Back</button>
