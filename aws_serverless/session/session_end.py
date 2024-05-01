@@ -29,6 +29,11 @@ def lambda_handler(event, context):
             dbClient.exceptions.ResourceNotFoundException, ValueError):
         return {
             'statusCode': 500,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST'
+            },
             'body': json.dumps({
                 'message': 'Unable to get restaurants due to a server error.'
             }),
@@ -57,6 +62,11 @@ def lambda_handler(event, context):
         print('ERROR: unable to end session ' + str(e))
         return {
             'statusCode': 500,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST'
+            },
             'body': json.dumps({
                 'message': 'error ending session'
             }),
@@ -64,6 +74,11 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 201,
+        'headers': {
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'OPTIONS,POST'
+        },
         'body': json.dumps({
             'message': 'Session ended'
         }),
