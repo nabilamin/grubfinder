@@ -18,11 +18,10 @@ def lambda_handler(event, context):
     Return
         dict: The http status code and restaurant data.
     """
-
-    session_id = int(event['pathParameters']['session_id'])
-
     dynamodb = boto3.resource('dynamodb')
+
     try:
+        session_id = int(event['pathParameters']['session_id'])
 
         table = dynamodb.Table('Grubfinder_Restaurant')
 
@@ -31,7 +30,7 @@ def lambda_handler(event, context):
         items = response['Items']
 
     except (dynamodb.Client.exceptions.InternalServerError,
-            dynamodb.Client.exceptions.ResourceNotFoundException):
+            dynamodb.Client.exceptions.ResourceNotFoundException, ValueError):
 
         return {
             'statusCode': 500,
