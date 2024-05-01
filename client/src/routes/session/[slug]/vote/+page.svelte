@@ -21,9 +21,10 @@
                 votingData[key] = val;
             });
 
-           const response = await fetch(`/session/${$page.params.slug}/vote`,{
+           const response = await fetch(`https://api.grubfinder.io/session/${$page.params.slug}/vote`,{
                 method: "POST",
                 headers: {
+                    'Accept': '*/*',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(votingData)
