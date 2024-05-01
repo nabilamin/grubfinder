@@ -1,5 +1,7 @@
 <script lang="ts">
     import {page} from "$app/stores";
+    import {isLoading} from "../../../../store";
+    import {goto} from "$app/navigation";
 
     export let data: object;
     const restaurants = data.sessionRestaurants;
@@ -9,6 +11,7 @@
 
     let index: number = 0;
     let votingResponse = new Map<string, boolean>();
+    let votingComplete = false;
 
     async function handleClick(voterResponse: boolean) {
         votingResponse.set(restaurants[index].restaurant_id, voterResponse);
@@ -16,6 +19,10 @@
         // console.log("Adding " + JSON.stringify(restaurants[index]) + " - " + voterResponse);
 
         if (index + 1 == restaurants.length) {
+            isLoading.set(true);
+
+            votingComplete = true;
+
             let votingData: {[key: string]: boolean} = {};
             votingResponse.forEach((val, key) => {
                 votingData[key] = val;
@@ -32,10 +39,11 @@
 
            const responseBody = await response.json();
 
-            console.log("Request body is " + JSON.stringify(votingData));
-            console.log("Response body is " + JSON.stringify(responseBody));
+            // console.log("Request body is " + JSON.stringify(votingData));
+            // console.log("Response body is " + JSON.stringify(responseBody));
 
-
+            isLoading.set(false);
+            goto('/');
         } else {
             index++
         }
@@ -64,10 +72,10 @@
 
         <div class="row">
             <div class="col-6">
-                <button on:click={() => handleClick(true)}>Yes</button>
+                <button on:click={() => handleClick(true)} disabled="{votingComplete}">Yes</button>
             </div>
             <div class="col-6">
-                <button on:click={() => handleClick(false)}>No</button>
+                <button on:click={() => handleClick(false)} disabled="{votingComplete}">No</button>
             </div>
         </div>
     </div>
