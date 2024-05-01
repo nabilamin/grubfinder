@@ -1,16 +1,15 @@
 <script>
     import '../app.css';
     import '../fonts.css';
+    import { isLoading } from '../store.js';
+    import { navigating } from "$app/stores";
+    import Loading from "../components/Loading.svelte";
 
     export let data;
-
     const bgImageSrc = new URL('../../static/Grubfinder_background.svg', import.meta.url).href;
 </script>
 
-<div style="background-image: url({bgImageSrc});
-                            width: 100vw;
-                            height: 100vh;
-                            position: absolute;">
+<div class="bg" style="background-image: url({bgImageSrc});">
 
     <div class="container text-center">
         <div class="row title">
@@ -19,12 +18,15 @@
             </div>
         </div>
         <div class="row main-pane">
+            {#if ($isLoading || $navigating)}
+                <Loading/>
+            {:else}
             <div class="col">
                 <slot></slot>
             </div>
+            {/if}
         </div>
-
-        {#if (data.route.id === "/")}
+        {#if (data.route.id === "/" && !$isLoading && !$navigating)}
             <div class="row">
                 <nav class="bottom-nav">
                     <a href="/join">JOIN A SESSION</a>
@@ -82,5 +84,9 @@
     .title > .col > h1 > a {
         text-decoration: none;
         color: white;
+    }
+
+    .bg {
+        min-height: 100vh;
     }
 </style>

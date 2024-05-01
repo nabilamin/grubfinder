@@ -18,6 +18,11 @@ def lambda_handler(event, context):
         if response.status_code != 200:
             return {
                 'statusCode': response.status_code,
+                'headers': {
+                    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'OPTIONS,POST'
+                },
                 'body': json.dumps({
                     'message': 'error getting yelp data'
                 }),
@@ -27,12 +32,22 @@ def lambda_handler(event, context):
     except KeyError as e:
         print('ERROR: failed to find key: ' + str(e))
         return {
-            'statusCode': 500
+            'statusCode': 500,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST'
+            }
         }
     except Exception as e:
         print(e)
         return {
             'statusCode': 500,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST'
+            },
             'body': json.dumps({
                 'message': 'error getting yelp data'
             }),
@@ -41,6 +56,11 @@ def lambda_handler(event, context):
     if len(businesses) < 5:
         return {
             'statusCode': 500,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST'
+            },
             'body': json.dumps({
                 'message': 'not enough data'
             }),
@@ -103,13 +123,23 @@ def lambda_handler(event, context):
         print('ERROR: unable to create session: ' + str(e))
         return {
             'statusCode': 500,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST'
+            },
             'body': json.dumps({
                 'message': 'error creating session'
             }),
         }
 
     return {
-        'statusCode': 200,
+        'statusCode': 201,
+        'headers': {
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'OPTIONS,POST'
+        },
         'body': json.dumps({
                 'session_id': session_id,
         }),

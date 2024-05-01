@@ -1,15 +1,110 @@
 <script>
+    import { goto } from '$app/navigation';
+    import { isLoading } from '../store.js';
+    import sanitizeHtml from 'sanitize-html';
+
     const locationImg = new URL('../../static/location.svg', import.meta.url).href;
-    const categoryImg = new URL('../../static/burger.svg', import.meta.url).href;
+    const lockImg = new URL('../../static/lock.svg', import.meta.url).href;
     const priceImg = new URL('../../static/dollar.svg', import.meta.url).href;
 
-    function createSession() {
-        alert("this works");
+    // Initialize variables to store user input
+    let location = '';
+    let priceRange = '';
+    let pin = '';
+    // Initialize variables to store error messages
+    let locationError = '';
+    let priceRangeError = '';
+    let pinError = '';
+
+    let sessionId = "";
+
+    /**
+     * @param {string} location
+     * @param {string} pin
+     */
+    function sanitizeInput(location, pin) {
+        // JavaScript function to sanitize user input by removing any potentially harmful HTML elements, whitelist approach
+        console.log('Before: ' + location + ' ' + pin)
+        const sanitizedLocation = sanitizeHtml(location);
+        const sanitizedPin = sanitizeHtml(pin);
+        console.log('After: ' + sanitizedLocation + ' ' + sanitizedPin)
+
+        return {
+            sanitizedLocation,
+            sanitizedPin
+        };
+    }
+
+    // Function to create a session with the user input
+    async function createSession() {
+        // Reset error messages
+        locationError = '';
+        priceRangeError = '';
+        pinError = '';
+
+        // Input validation
+        let valid = true;
+        // Chargoggagoggmanchauggagoggchaubunagungamaugg, Massachusetts is the longest place name in the United States
+        if (location === '' || location.trim().length > 60) {
+            locationError = 'Please enter a valid location';
+            valid = false;
+        }
+        if (priceRange === '') {
+            priceRangeError = 'Please select a price range';
+            valid = false;
+        }
+        if (pin === '' || pin.length !== 4 || !/^\d+$/.test(pin)) {
+            pinError = 'Please enter a 4-digit numerical pin';
+            valid = false;
+        }
+
+        if (!valid) {
+            return;
+        }
+
+        // Sanitize user input
+        const { sanitizedLocation, sanitizedPin } = sanitizeInput(location, pin);
+
+        // Data object to send to backend
+        const data = {
+            "location": sanitizedLocation,
+            "price": priceRange,
+            "pin": sanitizedPin,
+            "open_at": ""
+        };
+
+        // Put request to backend to create a session
+        try {
+            isLoading.set(true);
+            const response = await fetch('https://api.grubfinder.io/session/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const responseBody = await response.json();
+
+            sessionId = responseBody.session_id;
+
+            if (sessionId) {
+                await goto(`/session/${sessionId}/confirmation`);
+                isLoading.set(false);
+            }
+
+            if (response.ok)
+                console.log('Session created successfully with id: ' + sessionId);
+            else
+                console.log('Error: Session creation failed');
+        }
+        catch (error) {
+            console.error('Error:', error);
+        }
     }
 </script>
 
 <div class="container">
-
     <h2 class="content-title mb-5">Need help deciding on a place to eat?</h2>
 
     <form class="row">
@@ -18,34 +113,44 @@
             <label class="visually-hidden form-label" for="location">Location</label>
             <input type="text" class="form-control" id="location" placeholder="Enter a location"
                    aria-label="Location"
-                   aria-describedby="session-configuration">
+                   aria-describedby="session-configuration" bind:value={location}>
+            {#if locationError}
+                <div class="error-message">{locationError}</div>
+            {/if}
             <span class="input-group-append">
                 <img src="{locationImg}" class="input-icon" alt="icon"/>
             </span>
-        </div>
-
-        <!--CATEGORY INPUT-->
-        <div class="col-lg-4 col-md-12 mb-3">
-            <label class="visually-hidden form-label" for="category">Food category</label>
-            <input type="text" class="form-control" id="category" placeholder="Select a food category"
-                   aria-label="Location"
-                   aria-describedby="session-configuration">
-            <span class="input-group-append">
-                <img src="{categoryImg}" class="input-icon" alt="icon"/>
-            </span>
-        </div>
+            </div>
 
         <!--PRICE INPUT-->
-        <div class="col-lg-4 col-md-12 mb-5">
+        <div class="col-lg-4 col-md-12 mb-3">
             <label class="visually-hidden form-label" for="price-range">Price range</label>
-            <input type="text" class="form-control" id="price-range" placeholder="Select a price range"
-                   aria-label="Location"
-                   aria-describedby="session-configuration">
+            <select class="form-select" id="price-range" aria-label="Location" aria-describedby="session-configuration" bind:value={priceRange}>
+                <option value="" selected>Select a price range</option>
+                <option value="1">$</option>
+                <option value="2">$$</option>
+                <option value="3">$$$</option>
+                <option value="4">$$$$</option>
+            </select>
+            {#if priceRangeError}
+                <div class="error-message">{priceRangeError}</div>
+            {/if}
             <span class="input-group-append">
                 <img src="{priceImg}" class="input-icon" alt="icon"/>
             </span>
         </div>
 
+        <!--PIN INPUT-->
+        <div class="col-lg-4 col-md-12 mb-3">
+            <label class="visually-hidden form-label" for="pin">Session pin</label>
+            <input type="text" class="form-control" id="pin" placeholder="Enter a session pin" aria-label="Location" aria-describedby="session-configuration" bind:value={pin} maxlength="4" minlength="4" pattern="\d{4}">
+            {#if pinError}
+                <div class="error-message">{pinError}</div>
+            {/if}
+            <span class="input-group-append">
+                <img src="{lockImg}" class="input-icon" alt="icon"/>
+            </span>
+        </div>
 
         <div class="row mb-3">
             <div class="col">
@@ -53,6 +158,8 @@
             </div>
         </div>
     </form>
+
+    <!--{/if}-->
 
 </div>
 
@@ -71,6 +178,14 @@
         pointer-events: none;
     }
 
+    .error-message {
+        color: #890000;
+        font-size: 0.8em;
+        margin-top: 5px;
+        position: absolute;
+        padding-left: 38px;
+    }
+
     input {
         padding-left: 37px;
     }
@@ -78,4 +193,9 @@
     .row > * {
         padding-right: 0;
     }
+
+    #price-range {
+        text-indent: 26px;
+    }
 </style>
+

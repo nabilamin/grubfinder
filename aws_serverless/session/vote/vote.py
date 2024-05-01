@@ -17,6 +17,11 @@ def lambda_handler(event, context):
     if event['body'] is None:
         return {
             'statusCode': 400,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST'
+            },
             'body': json.dumps({
                 'message': 'Empty request'
             }),
@@ -72,6 +77,11 @@ def lambda_handler(event, context):
             print('ERROR: unable to append votes to session: ' + str(e))
             return {
                 'statusCode': 500,
+                'headers': {
+                    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'OPTIONS,POST'
+                },
                 'body': json.dumps({
                     'message': 'error submitting votes'
                 }),
@@ -79,6 +89,11 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 201,
+        'headers': {
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'OPTIONS,POST'
+        },
         'body': json.dumps({
             'message': 'Votes submitted'
         }),
