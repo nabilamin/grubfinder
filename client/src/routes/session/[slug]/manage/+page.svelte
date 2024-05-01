@@ -22,21 +22,18 @@
     async function endSession() {
         isLoading.set(true);
 
-        try {
-            const response = await fetch(`https://api.grubfinder.io/session/${$page.params.slug}/end`, {
-                method: "POST",
-                body: ""
-            });
+        const reqData = {"sessionId": $page.params.slug};
 
-            const responseBody = await response.json();
+        const res = await fetch(`/session/${$page.params.slug}/end`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: ""
+        });
 
-            console.log(responseBody);
-            isLoading.set(false);
-        }
-        catch (e) {
-            isLoading.set(false);
-            console.log("ERR -> " + e);
-        }
+        const responseBody = await res.json();
+
+        console.log(JSON.stringify(responseBody));
+        // const sessionId = responseBody
 
         isLoading.set(false);
     }
