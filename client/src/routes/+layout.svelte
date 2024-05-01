@@ -2,6 +2,8 @@
     import '../app.css';
     import '../fonts.css';
     import { isLoading } from '../store.js';
+    import { navigating } from "$app/stores";
+    import Loading from "../components/Loading.svelte";
 
     export let data;
     const bgImageSrc = new URL('../../static/Grubfinder_background.svg', import.meta.url).href;
@@ -16,11 +18,15 @@
             </div>
         </div>
         <div class="row main-pane">
+            {#if ($isLoading || $navigating)}
+                <Loading/>
+            {:else}
             <div class="col">
                 <slot></slot>
             </div>
+            {/if}
         </div>
-        {#if (data.route.id === "/" && !$isLoading)}
+        {#if (data.route.id === "/" && !$isLoading && !$navigating)}
             <div class="row">
                 <nav class="bottom-nav">
                     <a href="/join">JOIN A SESSION</a>

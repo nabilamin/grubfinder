@@ -1,7 +1,7 @@
 <script>
-
-    import Loading from "../components/Loading.svelte";
+    import { goto } from '$app/navigation';
     import { isLoading } from '../store.js';
+    import sanitizeHtml from 'sanitize-html';
 
     const locationImg = new URL('../../static/location.svg', import.meta.url).href;
     const lockImg = new URL('../../static/lock.svg', import.meta.url).href;
@@ -16,10 +16,27 @@
     let priceRangeError = '';
     let pinError = '';
 
+    let sessionId = "";
+
+    /**
+     * @param {string} location
+     * @param {string} pin
+     */
+    function sanitizeInput(location, pin) {
+        // JavaScript function to sanitize user input by removing any potentially harmful HTML elements, whitelist approach
+        console.log('Before: ' + location + ' ' + pin)
+        const sanitizedLocation = sanitizeHtml(location);
+        const sanitizedPin = sanitizeHtml(pin);
+        console.log('After: ' + sanitizedLocation + ' ' + sanitizedPin)
+
+        return {
+            sanitizedLocation,
+            sanitizedPin
+        };
+    }
+
     // Function to create a session with the user input
     async function createSession() {
-        isLoading.set(true);
-      
         // Reset error messages
         locationError = '';
         priceRangeError = '';
@@ -27,7 +44,8 @@
 
         // Input validation
         let valid = true;
-        if (location === '') {
+        // Chargoggagoggmanchauggagoggchaubunagungamaugg, Massachusetts is the longest place name in the United States
+        if (location === '' || location.trim().length > 60) {
             locationError = 'Please enter a valid location';
             valid = false;
         }
@@ -44,39 +62,49 @@
             return;
         }
 
+        // Sanitize user input
+        const { sanitizedLocation, sanitizedPin } = sanitizeInput(location, pin);
+
         // Data object to send to backend
         const data = {
-            location: location,
-            priceRange: priceRange,
-            pin: pin
+            "location": sanitizedLocation,
+            "price": priceRange,
+            "pin": sanitizedPin,
+            "open_at": ""
         };
 
         // Put request to backend to create a session
         try {
-            const response = await fetch('https://api.grubfinder.io/api/session/create', {
+            isLoading.set(true);
+            const response = await fetch('https://api.grubfinder.io/session/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
             });
-            // Check response
-            if (response.ok) {
-                console.log('Session created successfully');
-            } else {
-                console.log('Error: Session creation failed');
+
+            const responseBody = await response.json();
+
+            sessionId = responseBody.session_id;
+
+            if (sessionId) {
+                await goto(`/session/${sessionId}/confirmation`);
+                isLoading.set(false);
             }
-        } catch (error) {
+
+            if (response.ok)
+                console.log('Session created successfully with id: ' + sessionId);
+            else
+                console.log('Error: Session creation failed');
+        }
+        catch (error) {
             console.error('Error:', error);
         }
     }
 </script>
 
-
 <div class="container">
-
-    {#if !$isLoading}
-
     <h2 class="content-title mb-5">Need help deciding on a place to eat?</h2>
 
     <form class="row">
@@ -130,10 +158,8 @@
             </div>
         </div>
     </form>
-        {:else}
 
-        <Loading/>
-    {/if}
+    <!--{/if}-->
 
 </div>
 
@@ -172,3 +198,4 @@
         text-indent: 26px;
     }
 </style>
+
