@@ -42,7 +42,7 @@
             // console.log("Response body is " + JSON.stringify(responseBody));
 
             isLoading.set(false);
-            goto('/');
+            goto('/thank-you');
         } else {
             index++
         }
