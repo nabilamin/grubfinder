@@ -47,6 +47,7 @@
     <p>Rating: {data.rating}</p>
     <p>Review Count: {data.reviewCount}</p>
     <p>Delivery: {data.hasDelivery ? "yes" : "no"}</p>
+    <button type="button" class="pill-button" on:click={goBack}>Go Back</button>
 {:else if data.voteCount > -1}
     <h1>Manage your session</h1>
     <p>Session ID: {$page.params.slug}</p>
