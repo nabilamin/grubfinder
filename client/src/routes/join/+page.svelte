@@ -66,7 +66,7 @@
         flex-direction: column; /* Stacks children vertically */
         align-items: center;    /* Centers children horizontally in the container */
         justify-content: center; /* Optionally centers children vertically if needed */
-        margin-top: 100px;      /* Adds spacing at the top */
+        margin-top: 10px;      /* Adds spacing at the top */
         text-align: center;     /* Ensures text elements are also centered */
     }
 </style>
