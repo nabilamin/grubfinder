@@ -1,6 +1,7 @@
 <script>
     import {page} from "$app/stores";
     import {isLoading} from "../../../../store.js";
+    import {goto} from "$app/navigation";
 
     export let data;
 
@@ -36,6 +37,7 @@
         // const sessionId = responseBody
 
         isLoading.set(false);
+        goto(`/session/${$page.params.slug}/end`);
     }
 </script>
 
