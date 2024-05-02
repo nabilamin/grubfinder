@@ -24,10 +24,10 @@
      */
     function sanitizeInput(location, pin) {
         // JavaScript function to sanitize user input by removing any potentially harmful HTML elements, whitelist approach
-        console.log('Before: ' + location + ' ' + pin)
+        // console.log('Before: ' + location + ' ' + pin)
         const sanitizedLocation = sanitizeHtml(location);
         const sanitizedPin = sanitizeHtml(pin);
-        console.log('After: ' + sanitizedLocation + ' ' + sanitizedPin)
+        // console.log('After: ' + sanitizedLocation + ' ' + sanitizedPin)
 
         return {
             sanitizedLocation,
