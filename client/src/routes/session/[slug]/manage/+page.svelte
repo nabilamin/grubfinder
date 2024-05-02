@@ -39,13 +39,21 @@
     }
 </script>
 
-{#if data.voteCount > -1}
+{#if data.sessionIsClosed}
+    <p>Session is closed</p>
+    <h1>Winner</h1>
+    <p><b>Restaurant: {data.restaurantName}</b></p>
+    <p>{data.restaurantAddress}</p>
+    <p>Rating: {data.rating}</p>
+    <p>Review Count: {data.reviewCount}</p>
+    <p>Delivery: {data.hasDelivery ? "yes" : "no"}</p>
+{:else if data.voteCount > -1}
     <h1>Manage your session</h1>
     <p>Session ID: {$page.params.slug}</p>
     <p>Vote count: {JSON.stringify(data.voteCount)}</p>
     <p>Session URL: {getSessionUrl()}</p>
 
-    <button on:click={endSession}>End session</button>
+    <button type="button" class="pill-button" on:click={endSession}>End session</button>
 {:else }
     <p>Invalid session id or pin</p>
     <button type="button" class="pill-button" on:click={goBack}>Go Back</button>
