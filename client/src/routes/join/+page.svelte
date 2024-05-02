@@ -94,12 +94,16 @@
         cursor: pointer;
         border: none;
     }
-    form {
-        margin-left: 40%;
-        margin-right:40%;
-        width: 20%;
-        padding: 37px;
+    
+    .container {
+        display: flex;          /* Establishes a flex container */
+        flex-direction: column; /* Stacks children vertically */
+        align-items: center;    /* Centers children horizontally in the container */
+        justify-content: center; /* Optionally centers children vertically if needed */
+        margin-top: 10px;      /* Adds spacing at the top */
+        text-align: center;     /* Ensures text elements are also centered */
     }
+
     .error-message {
         color: #890000;
         font-size: 0.8em;

@@ -96,7 +96,7 @@
                         <!--SESSION CODE INPUT-->
                         <div class="col-md-auto mb-4">
                             <label for="sessionCode" class="visually-hidden form-label">Session Code</label>
-                            <input style="text-align:left"
+                            <input style="text-align:center"
                                    type="text"
                                    class="form-control"
                                    id="category"
@@ -112,7 +112,7 @@
                         <!--PIN INPUT-->
                         <div class="col-md-auto mb-4">
                             <label for="userPin" class="visually-hidden form-label">User Pin</label>
-                            <input style="text-align:left"
+                            <input style="text-align:center"
                                    type="text"
                                    class="form-control"
                                    id="category"
