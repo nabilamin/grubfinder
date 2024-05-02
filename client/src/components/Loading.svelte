@@ -48,6 +48,5 @@
     
     <div class="container">
         <div class="loading-spinner"></div>
-        <p>Please wait while we find your session...</p>
-        <button type="button" class="pill-button" on:click={goBack}>Go Back</button>
+        <p>Please wait while we work on your voting session...</p>
     </div>
