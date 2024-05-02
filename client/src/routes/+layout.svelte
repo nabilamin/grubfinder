@@ -56,7 +56,7 @@
     .main-pane {
         background-color: white;
         border-radius: 20px;
-        margin-top: 20%;
+        margin-top: 15%;
         padding: 1.5em 0;
     }
 
