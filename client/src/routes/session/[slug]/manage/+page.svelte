@@ -16,6 +16,17 @@
         return sessionLink;
     }
 
+    function copySessionUrlToClipboard() {
+        const sessionUrl = getSessionUrl();
+        navigator.clipboard.writeText(sessionUrl)
+            .then(() => {
+                alert("Session URL copied to clipboard: " + sessionUrl);
+            })
+            .catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+    }
+
     function goBack() {
         history.back();
     }
@@ -58,7 +69,7 @@
     <p>Session ID: {$page.params.slug}</p>
     <p>Vote count: {JSON.stringify(data.voteCount)}</p>
     <p>Session URL: {getSessionUrl()}</p>
-
+    <button class="pill-button" type="button" on:click={copySessionUrlToClipboard}>Copy Voting Link</button>
     <button type="button" class="pill-button" on:click={endSession}>End session</button>
 {:else }
     <p>Invalid session id or pin</p>
