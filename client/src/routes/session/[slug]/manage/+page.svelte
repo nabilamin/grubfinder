@@ -1,6 +1,7 @@
 <script>
     import {page} from "$app/stores";
     import {isLoading} from "../../../../store.js";
+    import {goto} from "$app/navigation";
 
     export let data;
 
@@ -15,6 +16,17 @@
         return sessionLink;
     }
 
+    function copySessionUrlToClipboard() {
+        const sessionUrl = getSessionUrl();
+        navigator.clipboard.writeText(sessionUrl)
+            .then(() => {
+                alert("Session URL copied to clipboard: " + sessionUrl);
+            })
+            .catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+    }
+
     function goBack() {
         history.back();
     }
@@ -22,33 +34,43 @@
     async function endSession() {
         isLoading.set(true);
 
-        try {
-            const response = await fetch(`https://api.grubfinder.io/session/${$page.params.slug}/end`, {
-                method: "POST",
-                body: ""
-            });
+        const reqData = {"sessionId": $page.params.slug};
 
-            const responseBody = await response.json();
+        const res = await fetch(`/session/${$page.params.slug}/end`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: ""
+        });
 
-            console.log(responseBody);
-            isLoading.set(false);
-        }
-        catch (e) {
-            isLoading.set(false);
-            console.log("ERR -> " + e);
-        }
+        const responseBody = await res.json();
+
+        console.log(JSON.stringify(responseBody));
+        // const sessionId = responseBody
 
         isLoading.set(false);
+        // goto(`/session/${$page.params.slug}/end`);
+        // goto(`/session/${$page.params.slug}/manage`);
+        const thisPage = window.location.pathname;
+        goto('/').then(() => goto(thisPage));
     }
 </script>
 
-{#if data.voteCount > -1}
+{#if data.sessionIsClosed}
+    <p>Session is closed</p>
+    <h1>Winner</h1>
+    <p><b>Restaurant: {data.restaurantName}</b></p>
+    <p>{data.restaurantAddress}</p>
+    <p>Rating: {data.rating}</p>
+    <p>Review Count: {data.reviewCount}</p>
+    <p>Delivery: {data.hasDelivery ? "yes" : "no"}</p>
+    <button type="button" class="pill-button" on:click={goBack}>Go Back</button>
+{:else if data.voteCount > -1}
     <h1>Manage your session</h1>
     <p>Session ID: {$page.params.slug}</p>
     <p>Vote count: {JSON.stringify(data.voteCount)}</p>
     <p>Session URL: {getSessionUrl()}</p>
-
-    <button on:click={endSession}>End session</button>
+    <button class="pill-button" type="button" on:click={copySessionUrlToClipboard}>Copy Voting Link</button>
+    <button type="button" class="pill-button" on:click={endSession}>End session</button>
 {:else }
     <p>Invalid session id or pin</p>
     <button type="button" class="pill-button" on:click={goBack}>Go Back</button>

@@ -24,10 +24,8 @@
      */
     function sanitizeInput(location, pin) {
         // JavaScript function to sanitize user input by removing any potentially harmful HTML elements, whitelist approach
-        console.log('Before: ' + location + ' ' + pin)
         const sanitizedLocation = sanitizeHtml(location);
         const sanitizedPin = sanitizeHtml(pin);
-        console.log('After: ' + sanitizedLocation + ' ' + sanitizedPin)
 
         return {
             sanitizedLocation,
@@ -35,8 +33,8 @@
         };
     }
 
-    // Function to create a session with the user input
-    async function createSession() {
+    async function handleSubmit() {
+        isLoading.set(true);
         // Reset error messages
         locationError = '';
         priceRangeError = '';
@@ -59,10 +57,11 @@
         }
 
         if (!valid) {
+            isLoading.set(false);
             return;
         }
+        
 
-        // Sanitize user input
         const { sanitizedLocation, sanitizedPin } = sanitizeInput(location, pin);
 
         // Data object to send to backend
@@ -73,35 +72,23 @@
             "open_at": ""
         };
 
-        // Put request to backend to create a session
-        try {
-            isLoading.set(true);
-            const response = await fetch('https://api.grubfinder.io/session/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+        const res = await fetch("/", {
+           method: "POST",
+           headers: {"Content-Type": "application/json"},
+           body: JSON.stringify(data)
+        });
 
-            const responseBody = await response.json();
+        const responseBody = await res.json();
 
-            sessionId = responseBody.session_id;
-
-            if (sessionId) {
-                await goto(`/session/${sessionId}/confirmation`);
-                isLoading.set(false);
-            }
-
-            if (response.ok)
-                console.log('Session created successfully with id: ' + sessionId);
-            else
-                console.log('Error: Session creation failed');
-        }
-        catch (error) {
-            console.error('Error:', error);
+        // console.log(JSON.stringify(responseBody));
+        const sessionId = responseBody.session_id;
+        isLoading.set(false);
+        if (sessionId) {
+            await goto(`/session/${sessionId}/confirmation`);
         }
     }
+
+
 </script>
 
 <div class="container">
@@ -154,7 +141,7 @@
 
         <div class="row mb-3">
             <div class="col">
-                <button type="button" class="btn btn-primary" on:click={createSession}>Start a session</button>
+                <button type="button" class="pill-button" on:click={handleSubmit}>Start a session</button>
             </div>
         </div>
     </form>
@@ -178,6 +165,19 @@
         pointer-events: none;
     }
 
+    .pill-button {
+        display: inline-block;
+        background-color: #890000;
+        color: white;
+        margin-top: 15px;
+        padding: 10px 20px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-family: 'Baloo 2 Variable', sans-serif;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+    }   
     .error-message {
         color: #890000;
         font-size: 0.8em;
