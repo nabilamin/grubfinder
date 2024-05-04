@@ -71,10 +71,10 @@
 
         <div class="row">
             <div class="col-6">
-                <button on:click={() => handleClick(true)} disabled="{votingComplete}">Yes</button>
+                <button class="btn btn-success" on:click={() => handleClick(true)} disabled="{votingComplete}">Yes</button>
             </div>
             <div class="col-6">
-                <button on:click={() => handleClick(false)} disabled="{votingComplete}">No</button>
+                <button class="btn btn-danger" on:click={() => handleClick(false)} disabled="{votingComplete}">No</button>
             </div>
         </div>
     </div>
