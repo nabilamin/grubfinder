@@ -37,7 +37,10 @@
         // const sessionId = responseBody
 
         isLoading.set(false);
-        goto(`/session/${$page.params.slug}/end`);
+        // goto(`/session/${$page.params.slug}/end`);
+        // goto(`/session/${$page.params.slug}/manage`);
+        const thisPage = window.location.pathname;
+        goto('/').then(() => goto(thisPage));
     }
 </script>
 
