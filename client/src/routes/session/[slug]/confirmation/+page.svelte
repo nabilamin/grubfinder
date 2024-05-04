@@ -16,12 +16,22 @@
         return sessionLink;
     }
 
+    function copySessionUrlToClipboard() {
+        const sessionUrl = getSessionUrl();
+        navigator.clipboard.writeText(sessionUrl)
+            .then(() => {
+                alert("Session URL copied to clipboard: " + sessionUrl);
+            })
+            .catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+    }
 </script>
 
 <h1>You're all set up!</h1>
 <p>Your session ID is <b>{sessionId}</b>. You'll need it to view your results.</p>
 <p>Share this link with others so they can vote on a place to eat: <a href="{sessionUrl}">{sessionUrl}</a></p>
-
+<button class="pill-button" type="button" on:click={copySessionUrlToClipboard}>Copy Voting Link</button>
 <button class="pill-button" type="button" on:click={() => goto("/")}>
     {"< Go home"}
 </button>
