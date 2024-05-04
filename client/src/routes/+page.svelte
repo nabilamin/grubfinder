@@ -141,7 +141,7 @@
 
         <div class="row mb-3">
             <div class="col">
-                <button type="button" class="btn btn-primary" on:click={handleSubmit}>Start a session</button>
+                <button type="button" class="pill-button" on:click={handleSubmit}>Start a session</button>
             </div>
         </div>
     </form>
@@ -165,6 +165,19 @@
         pointer-events: none;
     }
 
+    .pill-button {
+        display: inline-block;
+        background-color: #890000;
+        color: white;
+        margin-top: 15px;
+        padding: 10px 20px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-family: 'Baloo 2 Variable', sans-serif;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+    }   
     .error-message {
         color: #890000;
         font-size: 0.8em;
