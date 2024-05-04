@@ -1,12 +1,26 @@
 <script>
     import { goto } from '$app/navigation';
+    import {page} from "$app/stores";
+
     export let data;
     const sessionId = data.params.slug
+    const sessionUrl = getSessionUrl();
+
+    function getSessionUrl() {
+        let baseUrl = new URL($page.url.href);
+        let sessionLink = `${baseUrl.protocol}//${baseUrl.hostname}`;
+        if (baseUrl.port !== "443" && baseUrl.port !== "80")
+            sessionLink += `:${baseUrl.port}`;
+
+        sessionLink += `/session/${$page.params.slug}/vote`;
+        return sessionLink;
+    }
 
 </script>
 
 <h1>You're all set up!</h1>
-<p>Your session ID is <b>{sessionId}</b></p>
+<p>Your session ID is <b>{sessionId}</b>. You'll need it to view your results.</p>
+<p>Share this link with others so they can vote on a place to eat: <a href="{sessionUrl}">{sessionUrl}</a></p>
 
 <button class="pill-button" type="button" on:click={() => goto("/")}>
     {"< Go home"}
@@ -14,6 +28,10 @@
 
 <button class="pill-button" type="button" on:click={() => goto(`/manage`)}>
     Manage session
+</button>
+
+<button class="pill-button" type="button" on:click={() => goto(`/session/${sessionId}/vote`)}>
+    Vote
 </button>
 
 <style>
