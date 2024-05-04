@@ -34,6 +34,11 @@ def lambda_handler(event, context):
 
         return {
             'statusCode': 500,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,GET'
+            },
             'body': json.dumps({
                 'message': 'Unable to get restaurants due to a server error.'
             }),
@@ -42,11 +47,21 @@ def lambda_handler(event, context):
     if bool(items):
         return {
             'statusCode': 200,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,GET'
+            },
             'body': json.dumps(items, default=default_json),
         }
 
     return {
         'statusCode': 404,
+        'headers': {
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'OPTIONS,GET'
+        },
         'body': json.dumps({
             'message': 'Session not found.'
         }),

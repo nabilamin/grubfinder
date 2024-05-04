@@ -38,6 +38,11 @@ def lambda_handler(event, context):
     except(IndexError, botocore.exceptions.ClientError):
         return {
             'statusCode': 500,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,GET'
+            },
             'body': json.dumps({
                 'message': 'unable to get session due to a server error'
             }),
@@ -46,6 +51,11 @@ def lambda_handler(event, context):
     if len(items) == 0:
         return {
             'statusCode': 404,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,GET'
+            },
             'body': json.dumps({
                 'message': 'session not found'
         }),
@@ -61,6 +71,11 @@ def lambda_handler(event, context):
         if pin != host_pin:
             return {
                 'statusCode': 401,
+                'headers': {
+                    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'OPTIONS,GET'
+                },
                 'body': json.dumps({
                     'message': 'unauthorized'
             }),
@@ -75,6 +90,11 @@ def lambda_handler(event, context):
         # bad value, return unauthorized
         return {
             'statusCode': 401,
+            'headers': {
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,GET'
+            },
             'body': json.dumps({
                 'message': 'unauthorized'
             }),
