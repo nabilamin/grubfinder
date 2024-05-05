@@ -93,7 +93,8 @@
 
 <div class="container">
     <h2 class="content-title mb-5">Need help deciding on a place to eat?</h2>
-
+    <p>GrubFinder solves the hassle of picking where to eat.</p>
+    <p>Easily vote on a restaurant with friends or colleagues, then let GrubFinder guide your group's dining decision impartially when ordering food.</p>
     <form class="row">
         <!--LOCATION INPUT-->
         <div class="col-lg-4 col-md-12 mb-3">
