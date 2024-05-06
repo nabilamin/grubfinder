@@ -7,22 +7,20 @@
     const lockImg = new URL('../../static/lock.svg', import.meta.url).href;
     const priceImg = new URL('../../static/dollar.svg', import.meta.url).href;
 
-    // Initialize variables to store user input
-    let location = '';
-    let priceRange = '';
-    let pin = '';
-    // Initialize variables to store error messages
-    let locationError = '';
-    let priceRangeError = '';
-    let pinError = '';
+    // Initialize variables to store user input and error messages
+    let location = '',
+        locationError = '';
 
-    let sessionId = "";
+    let priceRange = '',
+        priceRangeError = '';
+
+    let pin = '',
+        pinError = '';
 
     /**
-     * @param {string} location
-     * @param {string} pin
+     * Perform HTML sanitization of text input by the user
      */
-    function sanitizeInput(location, pin) {
+    function sanitizeInput() {
         // JavaScript function to sanitize user input by removing any potentially harmful HTML elements, whitelist approach
         const sanitizedLocation = sanitizeHtml(location);
         const sanitizedPin = sanitizeHtml(pin);
@@ -33,6 +31,37 @@
         };
     }
 
+    /**
+     * Verfies that user input meets length and format requirements
+     *
+     * Location must be between 1 and 60 characters
+     * Price range must have a value
+     * PIN must be exactly 4 numerical digits
+     *
+     * @return true if all input is valid, false otherwise
+     */
+    function validateInput() {
+        let isValid = true;
+        // Chargoggagoggmanchauggagoggchaubunagungamaugg, Massachusetts
+        // is the longest place name in the United States
+        if (location === '' || location.trim().length > 60) {
+            locationError = 'Please enter a valid location';
+            isValid = false;
+        }
+        if (priceRange === '') {
+            priceRangeError = 'Please select a price range';
+            isValid = false;
+        }
+        if (pin === '' || pin.length !== 4 || !/^\d+$/.test(pin)) {
+            pinError = 'Please enter a 4-digit numerical pin';
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    /**
+     * Submit form to create session
+     */
     async function handleSubmit() {
         isLoading.set(true);
         // Reset error messages
@@ -41,28 +70,14 @@
         pinError = '';
 
         // Input validation
-        let valid = true;
-        // Chargoggagoggmanchauggagoggchaubunagungamaugg, Massachusetts is the longest place name in the United States
-        if (location === '' || location.trim().length > 60) {
-            locationError = 'Please enter a valid location';
-            valid = false;
-        }
-        if (priceRange === '') {
-            priceRangeError = 'Please select a price range';
-            valid = false;
-        }
-        if (pin === '' || pin.length !== 4 || !/^\d+$/.test(pin)) {
-            pinError = 'Please enter a 4-digit numerical pin';
-            valid = false;
-        }
+        const valid = validateInput();
 
         if (!valid) {
             isLoading.set(false);
             return;
         }
         
-
-        const { sanitizedLocation, sanitizedPin } = sanitizeInput(location, pin);
+        const { sanitizedLocation, sanitizedPin } = sanitizeInput();
 
         // Data object to send to backend
         const data = {
@@ -80,21 +95,24 @@
 
         const responseBody = await res.json();
 
+        // For testing
         // console.log(JSON.stringify(responseBody));
+
         const sessionId = responseBody.session_id;
         isLoading.set(false);
         if (sessionId) {
             await goto(`/session/${sessionId}/confirmation`);
         }
+        else {
+            // console.log(submissionError)
+        }
     }
-
-
 </script>
 
 <div class="container">
     <h2 class="content-title mb-5">Need help deciding on a place to eat?</h2>
     <p>GrubFinder solves the hassle of picking where to eat.</p>
-    <p>Easily vote on a restaurant with friends or colleagues, then let GrubFinder guide your group's dining decision impartially when ordering food.</p>
+    <p class="mb-5">Easily vote on a restaurant with friends or colleagues, then let GrubFinder guide your group's dining decision impartially when ordering food.</p>
     <form class="row">
         <!--LOCATION INPUT-->
         <div class="col-lg-4 col-md-12 mb-3">

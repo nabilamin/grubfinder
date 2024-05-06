@@ -5,6 +5,9 @@
 
     export let data;
 
+    /**
+     * Gets a URL to vote in a session
+     */
     function getSessionUrl() {
 
         let baseUrl = new URL($page.url.href);
@@ -16,6 +19,9 @@
         return sessionLink;
     }
 
+    /**
+     * Adds the URL to vote in a session to the users clipboard
+     */
     function copySessionUrlToClipboard() {
         const sessionUrl = getSessionUrl();
         navigator.clipboard.writeText(sessionUrl)
@@ -27,14 +33,18 @@
             });
     }
 
+    /**
+     * Navigates to the previous browser page
+     */
     function goBack() {
         history.back();
     }
 
+    /**
+     * Ends the current session and displays the winner
+     */
     async function endSession() {
         isLoading.set(true);
-
-        const reqData = {"sessionId": $page.params.slug};
 
         const res = await fetch(`/session/${$page.params.slug}/end`, {
             method: "POST",
@@ -48,8 +58,8 @@
         // const sessionId = responseBody
 
         isLoading.set(false);
-        // goto(`/session/${$page.params.slug}/end`);
-        // goto(`/session/${$page.params.slug}/manage`);
+
+        // Refresh the current page
         const thisPage = window.location.pathname;
         goto('/').then(() => goto(thisPage));
     }
@@ -76,6 +86,7 @@
     <button type="button" class="pill-button" on:click={goBack}>Go Back</button>
 {/if}
 
+<!--FOR TESTING-->
 <!--<p>{JSON.stringify(data)}</p>-->
 
 

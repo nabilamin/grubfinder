@@ -9,10 +9,9 @@
     let pinError = '';
 
     /**
-     * @param {string} session
-     * @param {string} pin
+     * Perform HTML sanitization of text input by the user
      */
-    function sanitizeInput(session,pin) {
+    function sanitizeInput() {
         const sanitizedSession = sanitizeHtml(session);
         const sanitizedPin = sanitizeHtml(pin);
 
@@ -22,13 +21,10 @@
         };
     }
 
-    //Using custom request since we want to show loading screen before POST-ing form data
-    const handleSubmit = async (event) => {
-        event.preventDefault(); // Prevent default form submission
-        // Reset error messages
-        sessionError = '';
-        pinError = '';
-
+    /**
+     * Validates that user input fields are formatted properly
+     */
+    function validateInput() {
         // Input validation
         let valid = true;
         if (session === '' || session.length !== 6 || !/^\d+$/.test(session)){
@@ -39,17 +35,30 @@
             pinError = 'Please enter a 4-digit numerical pin';
             valid = false;
         }
+        return valid;
+    }
+
+    /**
+     * Sends form data to the backend Using custom request since we want to show
+     * loading screen before POST-ing form data
+     */
+    const handleSubmit = async () => {
+        // Reset error messages
+        sessionError = '';
+        pinError = '';
+
+       const valid = validateInput();
         if (!valid) {
             return;
         }
         
-        const {sanitizedSession, sanitizedPin} = sanitizeInput(session, pin);
+        const {sanitizedSession, sanitizedPin} = sanitizeInput();
 
         let params = new URLSearchParams();
         params.append("sessionPin", sanitizedPin);
         params.append("sessionId", sanitizedSession);
 
-        // POST form data
+
         const response = await fetch(`/session/${session}/manage`, {
             method: 'POST',
             body: params
@@ -59,24 +68,6 @@
         if(responseBody.status === 200)
             await goto(`/session/${session}/manage`)
     };
-    
-    // Commented out as one option for passing posting form data
-    // const handleSubmit = async () => {
-    //
-    //     const response = await fetch("?/", {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({session, pin})
-    //     });
-    //
-    //     const responseBody = await response.json();
-    //
-    //     if(responseBody.status === 200) {
-    //         goto(`/session/${session}/manage`)
-    //     }
-    // };
 </script>
 
 <div class="container">
@@ -86,12 +77,7 @@
                 <h1>Manage a Session</h1>
             </div>
             <div class="form">
-<!--                Saved the following commented out lines for learning-->
-<!--                <form on:submit|preventDefault="{handleSubmit}">-->
-<!--                <form action="?/validate" method="POST">-->
-<!--                <form action="/session/{session}/manage" method="POST">-->
-                <form id="manage-form" on:submit={handleSubmit}>
-
+                <form id="manage-form" on:submit|preventDefault={handleSubmit}>
                     <div class="row justify-content-center">
                         <!--SESSION CODE INPUT-->
                         <div class="col-md-auto mb-4">

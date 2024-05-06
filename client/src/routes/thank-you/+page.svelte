@@ -1,5 +1,9 @@
 <script>
     import {goto} from "$app/navigation";
+
+    /**
+     * Allow the user to navigate away from the “Thank You” page
+     */
     function goHome() {
         goto("/");
     }
