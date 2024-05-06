@@ -2,6 +2,7 @@
     import { goto } from '$app/navigation';
     import { isLoading } from '../store.js';
     import sanitizeHtml from 'sanitize-html';
+    import {onMount} from "svelte";
 
     const locationImg = new URL('../../static/location.svg', import.meta.url).href;
     const lockImg = new URL('../../static/lock.svg', import.meta.url).href;
@@ -107,6 +108,17 @@
             // console.log(submissionError)
         }
     }
+
+    // Initialize tool tips on this page
+    onMount(() => {
+        window.$(function () {
+            window.$('[data-toggle="tooltip"]').tooltip()
+        });
+    });
+    const locationTip = "Enter a general location as a zip code or as 'city, state'. This helps us choose restaurants in your area.";
+    const priceTip = "Select a maximum price range for restaurant in your voting session.";
+    const pinTip = "Enter a 4-digit pin to come back and see your results.";
+
 </script>
 
 <div class="container">
@@ -119,7 +131,8 @@
             <label class="visually-hidden form-label" for="location">Location</label>
             <input type="text" class="form-control" id="location" placeholder="Enter a location"
                    aria-label="Location"
-                   aria-describedby="session-configuration" bind:value={location}>
+                   aria-describedby="session-configuration"bind:value={location}
+                   data-toggle="tooltip" data-placement="top" title="{locationTip}" >
             {#if locationError}
                 <div class="error-message">{locationError}</div>
             {/if}
@@ -131,7 +144,8 @@
         <!--PRICE INPUT-->
         <div class="col-lg-4 col-md-12 mb-3">
             <label class="visually-hidden form-label" for="price-range">Price range</label>
-            <select class="form-select" id="price-range" aria-label="Location" aria-describedby="session-configuration" bind:value={priceRange}>
+            <select class="form-select" id="price-range" aria-label="Location" aria-describedby="session-configuration"
+                    data-toggle="tooltip" data-placement="top" title="{priceTip}" bind:value={priceRange}>
                 <option value="" selected>Select a price range</option>
                 <option value="1">$</option>
                 <option value="2">$$</option>
@@ -149,7 +163,16 @@
         <!--PIN INPUT-->
         <div class="col-lg-4 col-md-12 mb-3">
             <label class="visually-hidden form-label" for="pin">Session pin</label>
-            <input type="text" class="form-control" id="pin" placeholder="Enter a session pin" aria-label="Location" aria-describedby="session-configuration" bind:value={pin} maxlength="4" minlength="4" pattern="\d{4}">
+            <input type="text"
+                   class="form-control" id="pin"
+                   placeholder="Enter a session pin"
+                   aria-label="Location"
+                   aria-describedby="session-configuration"
+                   bind:value={pin}
+                   maxlength="4"
+                   minlength="4"
+                   pattern="\d{4}"
+                   data-toggle="tooltip" data-placement="top" title="{pinTip}" >
             {#if pinError}
                 <div class="error-message">{pinError}</div>
             {/if}
