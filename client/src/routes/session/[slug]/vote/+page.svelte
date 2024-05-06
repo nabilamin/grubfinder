@@ -13,6 +13,12 @@
     let votingResponse = new Map<string, boolean>();
     let votingComplete = false;
 
+    /**
+     * Stores the voting results in memory until all restaurant votes have been received.
+     * Sends a batch of voting results for the current user to the backend for processing.
+     *
+     * @param voterResponse
+     */
     async function handleClick(voterResponse: boolean) {
         votingResponse.set(restaurants[index].restaurant_id, voterResponse);
 
@@ -38,6 +44,7 @@
 
            const responseBody = await response.json();
 
+            // FOR TESTING
             // console.log("Request body is " + JSON.stringify(votingData));
             // console.log("Response body is " + JSON.stringify(responseBody));
 
@@ -53,6 +60,7 @@
     }
 </script>
 
+<!--FOR TESTING-->
 <!--<p>{JSON.stringify(restaurants)}</p>-->
 {#if (sessionExists)}
 
