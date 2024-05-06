@@ -1,0 +1,213 @@
+{
+	"id": "1ebedaa9-3dae-4edb-8025-1056dcd4e0b7",
+	"name": "Phase III",
+	"timestamp": "2024-05-06T11:40:32.976Z",
+	"collection_id": "34153398-ba86e73c-32e7-48ef-8948-2a879aee2a08",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 11,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2024-05-06T11:40:11.033Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "1ab55253-63fd-4a3b-838f-021db9000fd8",
+			"name": "Create Session",
+			"url": "https://api.grubfinder.io/session/create",
+			"time": 17951,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Session ID is 6 digits long": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Session ID is 6 digits long": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17951
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Session ID is 6 digits long": true
+				}
+			]
+		},
+		{
+			"id": "88c2852c-c32a-45ea-9c12-3d01aa509e4c",
+			"name": "Get Session",
+			"url": "https://api.grubfinder.io/session/217700",
+			"time": 338,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Session ID's Match": true,
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Session ID's Match": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				338
+			],
+			"allTests": [
+				{
+					"Session ID's Match": true,
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "429130e2-69c6-4acd-8562-cc5f3b403c37",
+			"name": "Get Session Restaurants",
+			"url": "https://api.grubfinder.io/session/217700/restaurant",
+			"time": 389,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Session ID's Match": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Session ID's Match": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				389
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Session ID's Match": true
+				}
+			]
+		},
+		{
+			"id": "8c2cb9a6-7915-4076-9ebc-b0e59038eaef",
+			"name": "Get Session Restaurant by ID",
+			"url": "https://api.grubfinder.io/session/217700/restaurant/1JRBSzV2NEo-b72ZVm6qXg",
+			"time": 387,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Session ID's Match": true,
+				"Restaurant ID's Match": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Session ID's Match": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Restaurant ID's Match": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				387
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Session ID's Match": true,
+					"Restaurant ID's Match": true
+				}
+			]
+		},
+		{
+			"id": "4eff3e59-e741-4ab1-9584-f6396a4c9135",
+			"name": "Vote",
+			"url": "https://api.grubfinder.io/session/217700/vote",
+			"time": 2421,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Sucess message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Sucess message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2421
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Sucess message": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 21486,
+	"collection": {
+		"requests": [
+			{
+				"id": "1ab55253-63fd-4a3b-838f-021db9000fd8",
+				"method": "POST"
+			},
+			{
+				"id": "88c2852c-c32a-45ea-9c12-3d01aa509e4c",
+				"method": "GET"
+			},
+			{
+				"id": "429130e2-69c6-4acd-8562-cc5f3b403c37",
+				"method": "GET"
+			},
+			{
+				"id": "8c2cb9a6-7915-4076-9ebc-b0e59038eaef",
+				"method": "GET"
+			},
+			{
+				"id": "4eff3e59-e741-4ab1-9584-f6396a4c9135",
+				"method": "POST"
+			}
+		]
+	}
+}

@@ -1,0 +1,96 @@
+{
+	"id": "1c3f7ce8-136f-40e1-9d0e-99380e34023a",
+	"name": "Phase I",
+	"timestamp": "2024-05-06T11:28:21.473Z",
+	"collection_id": "34153398-acc18594-d3ad-460b-ad92-525f5ada1467",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 4,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2024-05-06T11:28:03.764Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "773b7a9e-f872-49d2-8087-764006e3ed11",
+			"name": "Create Session",
+			"url": "https://api.grubfinder.io/session/create",
+			"time": 17079,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Session ID is 6 digits long": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Session ID is 6 digits long": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17079
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Session ID is 6 digits long": true
+				}
+			]
+		},
+		{
+			"id": "a3cc68bf-ebd3-4a25-8844-0168da9c5ef4",
+			"name": "Get Session",
+			"url": "https://api.grubfinder.io/session/476044",
+			"time": 335,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Session ID's Match": true,
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Session ID's Match": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				335
+			],
+			"allTests": [
+				{
+					"Session ID's Match": true,
+					"Status code is 200": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 17414,
+	"collection": {
+		"requests": [
+			{
+				"id": "773b7a9e-f872-49d2-8087-764006e3ed11",
+				"method": "POST"
+			},
+			{
+				"id": "a3cc68bf-ebd3-4a25-8844-0168da9c5ef4",
+				"method": "GET"
+			}
+		]
+	}
+}

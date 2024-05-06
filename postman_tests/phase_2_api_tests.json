@@ -1,0 +1,176 @@
+{
+	"id": "18bc4b25-9b6f-4993-b9b0-f1f167afb7c7",
+	"name": "Phase II",
+	"timestamp": "2024-05-06T11:39:00.151Z",
+	"collection_id": "34153398-fd2222da-04ff-4ceb-aaf1-06afcddb0687",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 9,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2024-05-06T11:38:29.282Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "9ae06e59-123c-4c0f-acae-993a8b613cf6",
+			"name": "Create Session",
+			"url": "https://api.grubfinder.io/session/create",
+			"time": 21319,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Session ID is 6 digits long": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Session ID is 6 digits long": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				21319
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Session ID is 6 digits long": true
+				}
+			]
+		},
+		{
+			"id": "b4963542-ad5b-497d-b212-ce240d4bebcf",
+			"name": "Get Session",
+			"url": "https://api.grubfinder.io/session/969270",
+			"time": 3071,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Session ID's Match": true,
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Session ID's Match": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3071
+			],
+			"allTests": [
+				{
+					"Session ID's Match": true,
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "503d0d82-7864-43cd-89c6-5fa6bda9011f",
+			"name": "Get Session Restaurants",
+			"url": "https://api.grubfinder.io/session/969270/restaurant",
+			"time": 3058,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Session ID's Match": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Session ID's Match": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3058
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Session ID's Match": true
+				}
+			]
+		},
+		{
+			"id": "fecd5268-8f78-43b5-bfa9-3cf49e9637e3",
+			"name": "Get Session Restaurant by ID",
+			"url": "https://api.grubfinder.io/session/969270/restaurant/1JRBSzV2NEo-b72ZVm6qXg",
+			"time": 3199,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Session ID's Match": true,
+				"Restaurant ID's Match": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Session ID's Match": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Restaurant ID's Match": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3199
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Session ID's Match": true,
+					"Restaurant ID's Match": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 30647,
+	"collection": {
+		"requests": [
+			{
+				"id": "9ae06e59-123c-4c0f-acae-993a8b613cf6",
+				"method": "POST"
+			},
+			{
+				"id": "b4963542-ad5b-497d-b212-ce240d4bebcf",
+				"method": "GET"
+			},
+			{
+				"id": "503d0d82-7864-43cd-89c6-5fa6bda9011f",
+				"method": "GET"
+			},
+			{
+				"id": "fecd5268-8f78-43b5-bfa9-3cf49e9637e3",
+				"method": "GET"
+			}
+		]
+	}
+}
